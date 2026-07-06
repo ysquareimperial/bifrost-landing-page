@@ -5,68 +5,108 @@
  * Layout: max-width 1400px, padding 0 6rem
  */
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Layout from "../components/Layout";
 
 const B = "https://bifrostwallet.com";
 const A = {
-  logo:           `${B}/static/a3e6e713e0a3afd8fd9c53e2f306beb0/80408/Logo.png`,
-  screenshot:     `${B}/static/81bf4e4737262ce9bcd544ae0e8e3e03/b65b9/MobileAppScreenshot.png`,
-  apple:          `${B}/static/c330ea0457c4f833af791a4fc9797908/90bbc/Apple.png`,
-  appleH:         `${B}/static/f88db11cfe111968c74b8fa5cdb2a8f8/90bbc/AppleHover.png`,
-  google:         `${B}/static/79c8a797d8ce2414fc8f686afbef7393/3994c/Google.png`,
-  googleH:        `${B}/static/17a9130ed89c5e97a2aebc98081ba334/3994c/GoogleHover.png`,
-  ctrlCrypto:     `${B}/static/c9758fc0ccc16c468b41a22273f186ce/8ad21/ControlYourCrypto.png`,
-  dapp:           `${B}/static/a87be36fcbb1ce21d11280c5bed08074/0ecf9/DappBrowser.png`,
-  nfts:           `${B}/static/f5be4778464820d1d55fff9f477b494c/c9f5d/StoreYourNFTs.png`,
-  safe:           `${B}/static/d02e632a830d05591e01a006ecd1dc4c/0c9c7/Safe.png`,
-  ytPoster:       `${B}/static/09261aba5d281644f6c154540a896603/9ef85/YoutubePoster.png`,
-  ytHover:        `${B}/static/a8d392047a638b3783420ca3c56e9769/9ef85/YoutubePosterHover.png`,
-  dlApp:          `${B}/static/44d6918af095cb083a9c8e1a6dc41acf/560ae/DownloadApp.png`,
-  starBlue:       `${B}/static/e4f1155fadf86a34547e4a261fe648de/f41d4/StarBlue.png`,
-  starWhite:      `${B}/static/5ae5a88f89ceebfb43bfb93218f245c3/d6284/StarWhite.png`,
-  starPurple:     `${B}/static/319179c3cedcd231b13767bf552fc09f/58f33/StarPurple.png`,
-  ratingStar:     `${B}/static/75441ba6daea4b9bf0115fbf28c3b371/52383/RatingStar.png`,
-  linkIcon:       `${B}/static/21c7a056a74ce640e659c3e14c5ec209/1e33b/LinkIcon.png`,
-  iconX:          `${B}/static/ab9e1d57723be8c09efd53ceddf666c9/5861f/X.png`,
-  iconYT:         `${B}/static/dd25e940fa29e5038b03d3af451a42db/5861f/Youtube.png`,
-  iconReddit:     `${B}/static/ed56638d1ef2e6de20a1e403476a41eb/5861f/Reddit.png`,
-  iconTG:         `${B}/static/9b894baf93d520ea4556eb0534846028/5861f/Telegram.png`,
-  FLR:  `${B}/static/64161cb3531348b131172350fd2345e3/a7be2/FLR.png`,
-  SGB:  `${B}/static/ac338bda208c6f30649799f7652fa158/a7be2/SGB.png`,
-  BNB:  `${B}/static/6bf0b2da180ff13c6748efc3ed58f7c8/a7be2/BNB.png`,
-  XRP:  `${B}/static/950038a227bbcfa096229d7dbae33cbe/a7be2/XRP.png`,
-  MATIC:`${B}/static/0ea644df4bbd971d0b23e590c9b18012/a7be2/Matic.png`,
-  LTC:  `${B}/static/d847d9512d59fdcb2a4d6efc81ddc9c9/a7be2/LTC.png`,
+  logo: `${B}/static/a3e6e713e0a3afd8fd9c53e2f306beb0/80408/Logo.png`,
+  screenshot: `${B}/static/81bf4e4737262ce9bcd544ae0e8e3e03/b65b9/MobileAppScreenshot.png`,
+  apple: `${B}/static/c330ea0457c4f833af791a4fc9797908/90bbc/Apple.png`,
+  appleH: `${B}/static/f88db11cfe111968c74b8fa5cdb2a8f8/90bbc/AppleHover.png`,
+  google: `${B}/static/79c8a797d8ce2414fc8f686afbef7393/3994c/Google.png`,
+  googleH: `${B}/static/17a9130ed89c5e97a2aebc98081ba334/3994c/GoogleHover.png`,
+  ctrlCrypto: `${B}/static/c9758fc0ccc16c468b41a22273f186ce/8ad21/ControlYourCrypto.png`,
+  dapp: `${B}/static/a87be36fcbb1ce21d11280c5bed08074/0ecf9/DappBrowser.png`,
+  nfts: `${B}/static/f5be4778464820d1d55fff9f477b494c/c9f5d/StoreYourNFTs.png`,
+  safe: `${B}/static/d02e632a830d05591e01a006ecd1dc4c/0c9c7/Safe.png`,
+  ytPoster: `${B}/static/09261aba5d281644f6c154540a896603/9ef85/YoutubePoster.png`,
+  ytHover: `${B}/static/a8d392047a638b3783420ca3c56e9769/9ef85/YoutubePosterHover.png`,
+  dlApp: `${B}/static/44d6918af095cb083a9c8e1a6dc41acf/560ae/DownloadApp.png`,
+  starBlue: `${B}/static/e4f1155fadf86a34547e4a261fe648de/f41d4/StarBlue.png`,
+  starWhite: `${B}/static/5ae5a88f89ceebfb43bfb93218f245c3/d6284/StarWhite.png`,
+  starPurple: `${B}/static/319179c3cedcd231b13767bf552fc09f/58f33/StarPurple.png`,
+  ratingStar: `${B}/static/75441ba6daea4b9bf0115fbf28c3b371/52383/RatingStar.png`,
+  linkIcon: `${B}/static/21c7a056a74ce640e659c3e14c5ec209/1e33b/LinkIcon.png`,
+  iconX: `${B}/static/ab9e1d57723be8c09efd53ceddf666c9/5861f/X.png`,
+  iconYT: `${B}/static/dd25e940fa29e5038b03d3af451a42db/5861f/Youtube.png`,
+  iconReddit: `${B}/static/ed56638d1ef2e6de20a1e403476a41eb/5861f/Reddit.png`,
+  iconTG: `${B}/static/9b894baf93d520ea4556eb0534846028/5861f/Telegram.png`,
+  FLR: `${B}/static/64161cb3531348b131172350fd2345e3/a7be2/FLR.png`,
+  SGB: `${B}/static/ac338bda208c6f30649799f7652fa158/a7be2/SGB.png`,
+  BNB: `${B}/static/6bf0b2da180ff13c6748efc3ed58f7c8/a7be2/BNB.png`,
+  XRP: `${B}/static/950038a227bbcfa096229d7dbae33cbe/a7be2/XRP.png`,
+  MATIC: `${B}/static/0ea644df4bbd971d0b23e590c9b18012/a7be2/Matic.png`,
+  LTC: `${B}/static/d847d9512d59fdcb2a4d6efc81ddc9c9/a7be2/LTC.png`,
   DOGE: `${B}/static/0b9d1ac55b40afbefd99a5992f86fa37/a7be2/Doge.png`,
-  ETH:  `${B}/static/9f92a2c000cc83e0ba5e9abf7ac44d01/a7be2/ETH.png`,
-  XDC:  `${B}/static/f0785efc8ae4a3a521714b37b70f58e9/a7be2/XDC.png`,
-  BTC:  `${B}/static/abf743faa6fa8c8bbcd0117ae2bc5b47/a7be2/BTC.png`,
+  ETH: `${B}/static/9f92a2c000cc83e0ba5e9abf7ac44d01/a7be2/ETH.png`,
+  XDC: `${B}/static/f0785efc8ae4a3a521714b37b70f58e9/a7be2/XDC.png`,
+  BTC: `${B}/static/abf743faa6fa8c8bbcd0117ae2bc5b47/a7be2/BTC.png`,
 };
 
 const reviews = [
-  { title:"One of the best apps", body:"Arguably one of the best user focused wallets out there, works great with the Songbird network", name:"Joshed1991", date:"5 Nov" },
-  { title:"Best products in this space", body:"So thankful for all of the efforts of you and the team. By far the best product experience in this space. Would happily pay for your apps. Would give 20 stars if I could!!!", name:"R.Meredith", date:"2 Dec" },
-  { title:"Bifrost. User friendly.", body:"Top notch wallet, I consider myself a grandad in this space and found this wallet very easy to user. A very well done!", name:"Bryall22", date:"5 Jan" },
-  { title:"Great app with user friendly interface", body:"The app is brilliant, very easy to use and easy to explain to someone who has little experience. Very easy to delegate too.", name:"Darren Pallatina", date:"31 Oct" },
-  { title:"Proper Job!", body:"Well what else can I say. Well done Bifrost Wallet, easy to use. Top marks.", name:"Forrest Fenn", date:"10 Oct" },
-  { title:"The Future is Here", body:"Putting the money system back in the hands of the people! Bifrost is doing a superb job advancing the goals of Web 3.0!", name:"ByThePeopleForThePeople", date:"23 Sep" },
+  {
+    title: "One of the best apps",
+    body: "Arguably one of the best user focused wallets out there, works great with the Songbird network",
+    name: "Joshed1991",
+    date: "5 Nov",
+  },
+  {
+    title: "Best products in this space",
+    body: "So thankful for all of the efforts of you and the team. By far the best product experience in this space. Would happily pay for your apps. Would give 20 stars if I could!!!",
+    name: "R.Meredith",
+    date: "2 Dec",
+  },
+  {
+    title: "Bifrost. User friendly.",
+    body: "Top notch wallet, I consider myself a grandad in this space and found this wallet very easy to user. A very well done!",
+    name: "Bryall22",
+    date: "5 Jan",
+  },
+  {
+    title: "Great app with user friendly interface",
+    body: "The app is brilliant, very easy to use and easy to explain to someone who has little experience. Very easy to delegate too.",
+    name: "Darren Pallatina",
+    date: "31 Oct",
+  },
+  {
+    title: "Proper Job!",
+    body: "Well what else can I say. Well done Bifrost Wallet, easy to use. Top marks.",
+    name: "Forrest Fenn",
+    date: "10 Oct",
+  },
+  {
+    title: "The Future is Here",
+    body: "Putting the money system back in the hands of the people! Bifrost is doing a superb job advancing the goals of Web 3.0!",
+    name: "ByThePeopleForThePeople",
+    date: "23 Sep",
+  },
 ];
 
 /* Hover image swap helper */
 function HImg({ src, hover, alt, style, className }) {
   const [h, setH] = useState(false);
   return (
-    <img src={h && hover ? hover : src} alt={alt} style={style} className={className}
-      onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)} />
+    <img
+      src={h && hover ? hover : src}
+      alt={alt}
+      style={style}
+      className={className}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+    />
   );
 }
 
 /* The purple gradient pill button */
 function Btn({ href, children, style }) {
   return (
-    <a href={href}
+    <a
+      href={href}
       target={href?.startsWith("http") ? "_blank" : undefined}
       rel={href?.startsWith("http") ? "noreferrer" : undefined}
-      className="button" style={style}
+      className="button"
+      style={style}
     >
       <span>{children}</span>
       <div className="overlay" />
@@ -78,7 +118,9 @@ function Btn({ href, children, style }) {
 function Stars() {
   return (
     <div className="stars">
-      {[1,2,3,4,5].map(i => <img key={i} src={A.ratingStar} alt="★" width={22} height={21} />)}
+      {[1, 2, 3, 4, 5].map((i) => (
+        <img key={i} src={A.ratingStar} alt="★" width={22} height={21} />
+      ))}
     </div>
   );
 }
@@ -102,23 +144,35 @@ function ReviewBox({ r }) {
 function Grad({ color, pos, style }) {
   const colors = {
     purple: "rgba(118,86,238,.4)",
-    blue:   "rgba(73,97,234,.3)",
+    blue: "rgba(73,97,234,.3)",
   };
   const positions = {
-    tl: { top:0, left:0,    transform:"translate(-60%,-60%)" },
-    br: { top:0, left:0,    transform:"translate(-30%,-60%)" },
-    bl: { top:0, left:0,    transform:"translate(-60%,-60%)" },
-    tr: { top:0, left:0,    transform:"translate(-30%,-60%)" },
+    tl: { top: 0, left: 0, transform: "translate(-60%,-60%)" },
+    br: { top: 0, left: 0, transform: "translate(-30%,-60%)" },
+    bl: { top: 0, left: 0, transform: "translate(-60%,-60%)" },
+    tr: { top: 0, left: 0, transform: "translate(-30%,-60%)" },
   };
   return (
-    <div style={{ position:"absolute", height:1, width:1, opacity:.7, ...style }}>
-      <div style={{
-        position:"absolute", opacity:.7,
-        background:`radial-gradient(circle closest-side,${colors[color]},rgba(0,0,0,0) 100%)`,
-        backgroundRepeat:"no-repeat",
-        width:1500, height:1500,
-        ...positions[pos],
-      }} />
+    <div
+      style={{
+        position: "absolute",
+        height: 1,
+        width: 1,
+        opacity: 0.7,
+        ...style,
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          opacity: 0.7,
+          background: `radial-gradient(circle closest-side,${colors[color]},rgba(0,0,0,0) 100%)`,
+          backgroundRepeat: "no-repeat",
+          width: 1500,
+          height: 1500,
+          ...positions[pos],
+        }}
+      />
     </div>
   );
 }
@@ -126,11 +180,12 @@ function Grad({ color, pos, style }) {
 /* ─────────────────────────────────────────── */
 export default function BifrostWallet() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [playing, setPlaying]       = useState(false);
-  const [vidHover, setVidHover]     = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [vidHover, setVidHover] = useState(false);
+  const navigate = useNavigate();
 
   return (
-    <>
+    <Layout>
       {/* ── GLOBAL CSS (matches original styled-components exactly) ── */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&display=swap');
@@ -541,102 +596,183 @@ export default function BifrostWallet() {
       `}</style>
 
       <div className="bifrost-page">
-
         {/* ─── HEADER ─── */}
-        <div className="header-container">
-          <div className="cw-left" style={{ height:"100%" }}>
-            <div className="logo-container">
-              <a href="/">
-                <img src={A.logo} alt="Bifrost Wallet logo" style={{ height:36, display:"block" }} />
-              </a>
-            </div>
-
-            <div id="menu">
-              <div className="menu-item"><span className="text"><a href="/security/">Security</a></span></div>
-              <div className="menu-item"><span className="text"><a href="/blog/">Blog</a></span></div>
-              <div className="menu-item"><span className="text"><a href="https://support.bifrostwallet.com/en/" target="_blank" rel="noreferrer">Support</a></span></div>
-              <div className="menu-item">
-                <a className="button" href="#download-app"><span>Download</span><div className="overlay"/></a>
-              </div>
-            </div>
-
-            <div id="mobile-menu-toggle" onClick={() => setMobileOpen(o => !o)}>
-              <div/><div/><div/>
-            </div>
-          </div>
-        </div>
+       
 
         {/* Mobile nav */}
-        <div className={`mobile-nav${mobileOpen ? " open" : ""}`}>
-          <a href="/security/">Security</a>
-          <a href="/blog/">Blog</a>
-          <a href="https://support.bifrostwallet.com/en/" target="_blank" rel="noreferrer">Support</a>
-          <a className="button" href="#download-app" style={{width:"fit-content"}}><span>Download</span><div className="overlay"/></a>
-        </div>
+      
 
         {/* ─── HERO (gradient + block) ─── */}
-        <div className="grad-wrapper" style={{ paddingTop:"3.2rem" }}>
+        <div className="grad-wrapper" style={{ paddingTop: "3.2rem" }}>
           {/* top-left purple radial */}
-          <div style={{ height:1, width:1, position:"absolute", top:0, left:0 }}>
-            <div style={{ position:"absolute", top:0, left:0, opacity:.7, background:"radial-gradient(circle closest-side,rgba(118,86,238,.4),rgba(0,0,0,0) 100%)", backgroundRepeat:"no-repeat", width:1500, height:1500, transform:"translate(-60%,-60%)" }} />
+          <div
+            style={{
+              height: 1,
+              width: 1,
+              position: "absolute",
+              top: 0,
+              left: 0,
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                opacity: 0.7,
+                background:
+                  "radial-gradient(circle closest-side,rgba(118,86,238,.4),rgba(0,0,0,0) 100%)",
+                backgroundRepeat: "no-repeat",
+                width: 1500,
+                height: 1500,
+                transform: "translate(-60%,-60%)",
+              }}
+            />
           </div>
 
           <div className="block-container full-vh content-block">
             <div className="cw-left">
               <div className="block-content">
                 <div className="split-flex page-header">
-
                   {/* Left: text */}
                   <div className="vertical">
                     {/* Decorative stars */}
                     <div className="decor-container">
-                      <div className="anchor" style={{ position:"absolute", top:"50%", left:"50%" }}>
-                        <div className="star" style={{ height:25, width:25, top:-110, left:-300 }}>
+                      <div
+                        className="anchor"
+                        style={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                        }}
+                      >
+                        <div
+                          className="star"
+                          style={{
+                            height: 25,
+                            width: 25,
+                            top: -110,
+                            left: -300,
+                          }}
+                        >
                           <img src={A.starBlue} alt="Star" width={25} />
                         </div>
-                        <div className="star" style={{ height:15, width:15, top:-130, left:190 }}>
+                        <div
+                          className="star"
+                          style={{
+                            height: 15,
+                            width: 15,
+                            top: -130,
+                            left: 190,
+                          }}
+                        >
                           <img src={A.starWhite} alt="Star" width={15} />
                         </div>
-                        <div className="star" style={{ height:11, width:11, top:74, left:-170 }}>
+                        <div
+                          className="star"
+                          style={{ height: 11, width: 11, top: 74, left: -170 }}
+                        >
                           <img src={A.starWhite} alt="Star" width={11} />
                         </div>
-                        <div className="star" style={{ height:22, width:22, top:90, left:280 }}>
+                        <div
+                          className="star"
+                          style={{ height: 22, width: 22, top: 90, left: 280 }}
+                        >
                           <img src={A.starPurple} alt="Star" width={22} />
                         </div>
                       </div>
-                      <h1 style={{ margin:0 }}>A true multi-chain wallet.</h1>
+                      <h1 style={{ margin: 0 }}>A true multi-chain wallet.</h1>
                     </div>
 
-                    <p style={{ margin:"1.8rem 0" }}>
-                      Have full control over your crypto tokens with a self custody wallet, NFT gallery and Web3 browser all in one simple and secure app.
+                    <p style={{ margin: "1.8rem 0" }}>
+                      Have full control over your crypto tokens with a self
+                      custody wallet, NFT gallery and Web3 browser all in one
+                      simple and secure app.
                     </p>
 
                     <div className="app-buttons">
-                      <a href="https://apps.apple.com/gb/app/bifrost-wallet/id1577198351" target="_blank" rel="noreferrer" className="hover-img-link">
-                        <img src={A.apple}  alt="Download on App Store"    className="default-logo" style={{ display:"block" }} />
-                        <img src={A.appleH} alt="Download on App Store"    className="hover-logo"   style={{ display:"block" }} />
+                      <a
+                        href="https://apps.apple.com/gb/app/bifrost-wallet/id1577198351"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="hover-img-link"
+                      >
+                        <img
+                          src={A.apple}
+                          alt="Download on App Store"
+                          className="default-logo"
+                          style={{ display: "block" }}
+                        />
+                        <img
+                          src={A.appleH}
+                          alt="Download on App Store"
+                          className="hover-logo"
+                          style={{ display: "block" }}
+                        />
                       </a>
-                      <a href="https://play.google.com/store/apps/details?id=com.bifrostwallet.app&hl=en_GB&gl=US" target="_blank" rel="noreferrer" className="hover-img-link">
-                        <img src={A.google}  alt="Get it on Google Play"   className="default-logo" style={{ display:"block" }} />
-                        <img src={A.googleH} alt="Get it on Google Play"   className="hover-logo"   style={{ display:"block" }} />
+                      <a
+                        href="https://play.google.com/store/apps/details?id=com.bifrostwallet.app&hl=en_GB&gl=US"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="hover-img-link"
+                      >
+                        <img
+                          src={A.google}
+                          alt="Get it on Google Play"
+                          className="default-logo"
+                          style={{ display: "block" }}
+                        />
+                        <img
+                          src={A.googleH}
+                          alt="Get it on Google Play"
+                          className="hover-logo"
+                          style={{ display: "block" }}
+                        />
                       </a>
                     </div>
                   </div>
 
                   {/* Right: app screenshot */}
                   <div className="screenshot">
-                    <img src={A.screenshot} alt="Screenshot from the Bifrost Wallet mobile application."
-                      style={{ objectFit:"contain", maxWidth:"100%", display:"inline-block" }} />
+                    <img
+                      src={A.screenshot}
+                      alt="Screenshot from the Bifrost Wallet mobile application."
+                      style={{
+                        objectFit: "contain",
+                        maxWidth: "100%",
+                        display: "inline-block",
+                      }}
+                    />
                   </div>
-
                 </div>
               </div>
             </div>
           </div>
 
           {/* bottom-right blue radial */}
-          <div style={{ height:1, width:1, position:"absolute", bottom:0, right:0 }}>
-            <div style={{ position:"absolute", top:0, left:0, opacity:.7, background:"radial-gradient(circle closest-side,rgba(73,97,234,.3),rgba(0,0,0,0) 100%)", backgroundRepeat:"no-repeat", width:1500, height:1500, transform:"translate(-30%,-60%)" }} />
+          <div
+            style={{
+              height: 1,
+              width: 1,
+              position: "absolute",
+              bottom: 0,
+              right: 0,
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                opacity: 0.7,
+                background:
+                  "radial-gradient(circle closest-side,rgba(73,97,234,.3),rgba(0,0,0,0) 100%)",
+                backgroundRepeat: "no-repeat",
+                width: 1500,
+                height: 1500,
+                transform: "translate(-30%,-60%)",
+              }}
+            />
           </div>
         </div>
 
@@ -645,11 +781,20 @@ export default function BifrostWallet() {
           <div className="cw-left">
             <div className="block-content">
               <div className="statistics-container">
-                <div className="statistic"><div className="count heading">1,000+</div><div className="name">Assets</div></div>
+                <div className="statistic">
+                  <div className="count heading">1,000+</div>
+                  <div className="name">Assets</div>
+                </div>
                 <div className="border" />
-                <div className="statistic"><div className="count heading">14</div><div className="name">Blockchains</div></div>
+                <div className="statistic">
+                  <div className="count heading">14</div>
+                  <div className="name">Blockchains</div>
+                </div>
                 <div className="border" />
-                <div className="statistic"><div className="count heading">250K+</div><div className="name">Installs</div></div>
+                <div className="statistic">
+                  <div className="count heading">250K+</div>
+                  <div className="name">Installs</div>
+                </div>
               </div>
             </div>
           </div>
@@ -657,8 +802,29 @@ export default function BifrostWallet() {
 
         {/* ─── CONTROL YOUR CRYPTO ─── */}
         <div className="grad-wrapper">
-          <div style={{ height:1, width:1, position:"absolute", bottom:0, left:0 }}>
-            <div style={{ position:"absolute", top:0, left:0, opacity:.7, background:"radial-gradient(circle closest-side,rgba(118,86,238,.4),rgba(0,0,0,0) 100%)", backgroundRepeat:"no-repeat", width:1500, height:1500, transform:"translate(-60%,-60%)" }} />
+          <div
+            style={{
+              height: 1,
+              width: 1,
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                opacity: 0.7,
+                background:
+                  "radial-gradient(circle closest-side,rgba(118,86,238,.4),rgba(0,0,0,0) 100%)",
+                backgroundRepeat: "no-repeat",
+                width: 1500,
+                height: 1500,
+                transform: "translate(-60%,-60%)",
+              }}
+            />
           </div>
           <div className="block-container padded content-block">
             <div className="cw-center">
@@ -666,15 +832,32 @@ export default function BifrostWallet() {
                 <div className="split-flex-auto small-content-box">
                   <div className="text-container">
                     <h2>Control your Crypto</h2>
-                    <p>Bifrost Wallet is a self custody cypto wallet, with you in complete control of your crypto tokens, keys and data.</p>
-                    <a href="https://support.bifrostwallet.com/en/articles/6877393-the-importance-of-self-custody" target="_blank" rel="noreferrer" className="button">
+                    <p>
+                      Bifrost Wallet is a self custody cypto wallet, with you in
+                      complete control of your crypto tokens, keys and data.
+                    </p>
+                    <a
+                      href="https://support.bifrostwallet.com/en/articles/6877393-the-importance-of-self-custody"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="button"
+                    >
                       <span>More on self custody</span>
-                      <img src={A.linkIcon} alt="" className="external-arrow" style={{ width:18, height:18 }} />
+                      <img
+                        src={A.linkIcon}
+                        alt=""
+                        className="external-arrow"
+                        style={{ width: 18, height: 18 }}
+                      />
                       <div className="overlay" />
                     </a>
                   </div>
                   <div className="image-container">
-                    <img src={A.ctrlCrypto} alt="Bifrost Wallet supports many crypto-currencies including Bitcoin, Ethereum and Songbird." style={{ maxWidth:"100%" }} />
+                    <img
+                      src={A.ctrlCrypto}
+                      alt="Bifrost Wallet supports many crypto-currencies including Bitcoin, Ethereum and Songbird."
+                      style={{ maxWidth: "100%" }}
+                    />
                   </div>
                 </div>
               </div>
@@ -688,14 +871,31 @@ export default function BifrostWallet() {
             <div className="block-content">
               <div className="split-flex-auto small-content-box">
                 <div className="image-container">
-                  <img src={A.dapp} alt="Dapp Browser supported applications" style={{ maxWidth:"100%" }} />
+                  <img
+                    src={A.dapp}
+                    alt="Dapp Browser supported applications"
+                    style={{ maxWidth: "100%" }}
+                  />
                 </div>
                 <div className="text-container">
                   <h2>Browser for Dapps</h2>
-                  <p>Access to staking, swaps and more. Discover and use any Web3 application such as Uniswap, Compound and Flarefarm.</p>
-                  <a href="https://support.bifrostwallet.com/en/articles/6877428-browse-and-access-decentralized-applications-dapps" target="_blank" rel="noreferrer" className="button">
+                  <p>
+                    Access to staking, swaps and more. Discover and use any Web3
+                    application such as Uniswap, Compound and Flarefarm.
+                  </p>
+                  <a
+                    href="https://support.bifrostwallet.com/en/articles/6877428-browse-and-access-decentralized-applications-dapps"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="button"
+                  >
                     <span>Dapps in Bifrost Wallet</span>
-                    <img src={A.linkIcon} alt="" className="external-arrow" style={{ width:18, height:18 }} />
+                    <img
+                      src={A.linkIcon}
+                      alt=""
+                      className="external-arrow"
+                      style={{ width: 18, height: 18 }}
+                    />
                     <div className="overlay" />
                   </a>
                 </div>
@@ -712,22 +912,60 @@ export default function BifrostWallet() {
                 <div className="split-flex-auto small-content-box">
                   <div className="text-container">
                     <h2>Store your NFTs</h2>
-                    <p>Securely store and easily view your rare NFTs from games, artists and beyond within the Bifrost app.</p>
-                    <a href="https://support.bifrostwallet.com/en/articles/6872887-manage-your-nfts" target="_blank" rel="noreferrer" className="button">
+                    <p>
+                      Securely store and easily view your rare NFTs from games,
+                      artists and beyond within the Bifrost app.
+                    </p>
+                    <a
+                      href="https://support.bifrostwallet.com/en/articles/6872887-manage-your-nfts"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="button"
+                    >
                       <span>Wallet for NFTs</span>
-                      <img src={A.linkIcon} alt="" className="external-arrow" style={{ width:18, height:18 }} />
+                      <img
+                        src={A.linkIcon}
+                        alt=""
+                        className="external-arrow"
+                        style={{ width: 18, height: 18 }}
+                      />
                       <div className="overlay" />
                     </a>
                   </div>
                   <div className="image-container">
-                    <img src={A.nfts} alt="NFT storage within the Bifrost app" style={{ maxWidth:"100%" }} />
+                    <img
+                      src={A.nfts}
+                      alt="NFT storage within the Bifrost app"
+                      style={{ maxWidth: "100%" }}
+                    />
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div style={{ height:1, width:1, position:"absolute", bottom:0, right:0 }}>
-            <div style={{ position:"absolute", top:0, left:0, opacity:.7, background:"radial-gradient(circle closest-side,rgba(118,86,238,.4),rgba(0,0,0,0) 100%)", backgroundRepeat:"no-repeat", width:1500, height:1500, transform:"translate(-30%,-60%)" }} />
+          <div
+            style={{
+              height: 1,
+              width: 1,
+              position: "absolute",
+              bottom: 0,
+              right: 0,
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                opacity: 0.7,
+                background:
+                  "radial-gradient(circle closest-side,rgba(118,86,238,.4),rgba(0,0,0,0) 100%)",
+                backgroundRepeat: "no-repeat",
+                width: 1500,
+                height: 1500,
+                transform: "translate(-30%,-60%)",
+              }}
+            />
           </div>
         </div>
 
@@ -738,12 +976,26 @@ export default function BifrostWallet() {
               <div className="safe-container">
                 <div className="safe-gradient-bl" />
                 <div className="desktop-image-container">
-                  <img src={A.safe} alt="Bifrost Wallet Security" style={{ maxWidth:"100%" }} />
+                  <img
+                    src={A.safe}
+                    alt="Bifrost Wallet Security"
+                    style={{ maxWidth: "100%" }}
+                  />
                 </div>
                 <div className="vertical">
-                  <h2>Find out what we do to make your crypto self custody more secure</h2>
-                  <p>From removing personal data tracking to presenting clear transaction details, we take great care in making sure your security and privacy are well protected.</p>
-                  <a className="button" href="/security/"><span>More on security</span><div className="overlay" /></a>
+                  <h2>
+                    Find out what we do to make your crypto self custody more
+                    secure
+                  </h2>
+                  <p>
+                    From removing personal data tracking to presenting clear
+                    transaction details, we take great care in making sure your
+                    security and privacy are well protected.
+                  </p>
+                  <a className="button" href="/security/">
+                    <span>More on security</span>
+                    <div className="overlay" />
+                  </a>
                 </div>
                 <div className="safe-gradient-tr" />
               </div>
@@ -755,23 +1007,37 @@ export default function BifrostWallet() {
         <div className="block-container padded content-block">
           <div className="cw-left">
             <div className="block-content">
-              <div style={{ width:"100%", textAlign:"center", maxWidth:"42rem" }}>
+              <div
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  maxWidth: "42rem",
+                }}
+              >
                 <h1>What is Bifrost Wallet?</h1>
                 <div className="video-container">
-                  <div className="video-target"
+                  <div
+                    className="video-target"
                     onMouseEnter={() => setVidHover(true)}
                     onMouseLeave={() => setVidHover(false)}
                     onClick={() => setPlaying(true)}
                   >
                     {!playing && (
                       <>
-                        <img src={vidHover ? A.ytHover : A.ytPoster}
+                        <img
+                          src={vidHover ? A.ytHover : A.ytPoster}
                           className="video-thumbnail"
                           alt=""
-                          style={{ width:"100%", display:"block" }} />
+                          style={{ width: "100%", display: "block" }}
+                        />
                         <div className="video-play-btn">
-                          <svg width={28} height={28} viewBox="0 0 24 24" fill="white">
-                            <path d="M8 5v14l11-7z"/>
+                          <svg
+                            width={28}
+                            height={28}
+                            viewBox="0 0 24 24"
+                            fill="white"
+                          >
+                            <path d="M8 5v14l11-7z" />
                           </svg>
                         </div>
                       </>
@@ -793,35 +1059,72 @@ export default function BifrostWallet() {
 
         {/* ─── MORE CHAINS, MORE TOKENS ─── */}
         <div className="grad-wrapper">
-          <div style={{ height:1, width:1, position:"absolute", top:0, left:0 }}>
-            <div style={{ position:"absolute", top:0, left:0, opacity:.7, background:"radial-gradient(circle closest-side,rgba(118,86,238,.4),rgba(0,0,0,0) 100%)", backgroundRepeat:"no-repeat", width:1500, height:1500, transform:"translate(-60%,-60%)" }} />
+          <div
+            style={{
+              height: 1,
+              width: 1,
+              position: "absolute",
+              top: 0,
+              left: 0,
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                opacity: 0.7,
+                background:
+                  "radial-gradient(circle closest-side,rgba(118,86,238,.4),rgba(0,0,0,0) 100%)",
+                backgroundRepeat: "no-repeat",
+                width: 1500,
+                height: 1500,
+                transform: "translate(-60%,-60%)",
+              }}
+            />
           </div>
           <div className="block-container padded content-block">
             <div className="cw-left">
               <div className="block-content">
-                <div className="crypto-collection" style={{ width:"100%" }}>
+                <div className="crypto-collection" style={{ width: "100%" }}>
                   <h1>More chains, more tokens</h1>
-                  <p>Store your favourite tokens like Flare, Songbird and Ethereum securely.</p>
+                  <p>
+                    Store your favourite tokens like Flare, Songbird and
+                    Ethereum securely.
+                  </p>
                   <div className="asset-icon-container">
-                    <div style={{ display:"flex", justifyContent:"center" }}>
-                      {["FLR","SGB"].map(s => (
-                        <div key={s}><img src={A[s]} alt={s} width={64} height={64} /></div>
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                      {["FLR", "SGB"].map((s) => (
+                        <div key={s}>
+                          <img src={A[s]} alt={s} width={64} height={64} />
+                        </div>
                       ))}
                     </div>
-                    <div style={{ display:"flex", justifyContent:"center" }}>
-                      {["BNB","XRP","MATIC","LTC","DOGE"].map(s => (
-                        s === "DOGE"
-                          ? <span key={s}><img src={A[s]} alt={s} width={64} height={64} /></span>
-                          : <div key={s}><img src={A[s]} alt={s} width={64} height={64} /></div>
-                      ))}
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                      {["BNB", "XRP", "MATIC", "LTC", "DOGE"].map((s) =>
+                        s === "DOGE" ? (
+                          <span key={s}>
+                            <img src={A[s]} alt={s} width={64} height={64} />
+                          </span>
+                        ) : (
+                          <div key={s}>
+                            <img src={A[s]} alt={s} width={64} height={64} />
+                          </div>
+                        ),
+                      )}
                     </div>
-                    <div style={{ display:"flex", justifyContent:"center" }}>
-                      {["ETH","XDC","BTC"].map(s => (
-                        <div key={s}><img src={A[s]} alt={s} width={64} height={64} /></div>
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                      {["ETH", "XDC", "BTC"].map((s) => (
+                        <div key={s}>
+                          <img src={A[s]} alt={s} width={64} height={64} />
+                        </div>
                       ))}
                     </div>
                   </div>
-                  <a className="button" href="/supported-assets/"><span>See all supported tokens</span><div className="overlay" /></a>
+                  <a className="button" href="/supported-assets/">
+                    <span>See all supported tokens</span>
+                    <div className="overlay" />
+                  </a>
                 </div>
               </div>
             </div>
@@ -830,21 +1133,46 @@ export default function BifrostWallet() {
 
         {/* ─── TRUSTED & LOVED ─── */}
         <div className="grad-wrapper">
-          <div style={{ height:1, width:1, position:"absolute", top:0, right:0 }}>
-            <div style={{ position:"absolute", top:0, left:0, opacity:.7, background:"radial-gradient(circle closest-side,rgba(73,97,234,.3),rgba(0,0,0,0) 100%)", backgroundRepeat:"no-repeat", width:1500, height:1500, transform:"translate(-30%,-60%)" }} />
+          <div
+            style={{
+              height: 1,
+              width: 1,
+              position: "absolute",
+              top: 0,
+              right: 0,
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                opacity: 0.7,
+                background:
+                  "radial-gradient(circle closest-side,rgba(73,97,234,.3),rgba(0,0,0,0) 100%)",
+                backgroundRepeat: "no-repeat",
+                width: 1500,
+                height: 1500,
+                transform: "translate(-30%,-60%)",
+              }}
+            />
           </div>
           <div className="block-container padded content-block">
             <div className="cw-left">
               <div className="block-content">
-                <div className="reviews-container" style={{ width:"100%" }}>
+                <div className="reviews-container" style={{ width: "100%" }}>
                   <h1>Trusted &amp; loved</h1>
                   <p>See what people have said about Bifrost Wallet.</p>
-                  <div className="review-list" style={{ width:"100%" }}>
+                  <div className="review-list" style={{ width: "100%" }}>
                     <div className="review-column">
-                      {reviews.slice(0,3).map((r,i) => <ReviewBox key={i} r={r} />)}
+                      {reviews.slice(0, 3).map((r, i) => (
+                        <ReviewBox key={i} r={r} />
+                      ))}
                     </div>
                     <div className="review-column">
-                      {reviews.slice(3,6).map((r,i) => <ReviewBox key={i} r={r} />)}
+                      {reviews.slice(3, 6).map((r, i) => (
+                        <ReviewBox key={i} r={r} />
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -861,20 +1189,56 @@ export default function BifrostWallet() {
               <div className="dl-container">
                 <div className="dl-gradient-bl" />
                 <div className="image-container">
-                  <img src={A.dlApp} alt="Download Bifrost Wallet" style={{ maxWidth:"100%" }} />
+                  <img
+                    src={A.dlApp}
+                    alt="Download Bifrost Wallet"
+                    style={{ maxWidth: "100%" }}
+                  />
                 </div>
                 <div className="vertical">
                   <h1>Download app</h1>
-                  <p style={{ marginBottom:".2rem" }}>Available on iOS and Android devices.</p>
+                  <p style={{ marginBottom: ".2rem" }}>
+                    Available on iOS and Android devices.
+                  </p>
                   <div className="app-buttons-container">
                     <div className="app-buttons">
-                      <a href="https://apps.apple.com/gb/app/bifrost-wallet/id1577198351" target="_blank" rel="noreferrer" className="hover-img-link">
-                        <img src={A.apple}  alt="Download on App Store"  className="default-logo" style={{ display:"block" }} />
-                        <img src={A.appleH} alt="Download on App Store"  className="hover-logo"   style={{ display:"block" }} />
+                      <a
+                        href="https://apps.apple.com/gb/app/bifrost-wallet/id1577198351"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="hover-img-link"
+                      >
+                        <img
+                          src={A.apple}
+                          alt="Download on App Store"
+                          className="default-logo"
+                          style={{ display: "block" }}
+                        />
+                        <img
+                          src={A.appleH}
+                          alt="Download on App Store"
+                          className="hover-logo"
+                          style={{ display: "block" }}
+                        />
                       </a>
-                      <a href="https://play.google.com/store/apps/details?id=com.bifrostwallet.app&hl=en_GB&gl=US" target="_blank" rel="noreferrer" className="hover-img-link">
-                        <img src={A.google}  alt="Get it on Google Play" className="default-logo" style={{ display:"block" }} />
-                        <img src={A.googleH} alt="Get it on Google Play" className="hover-logo"   style={{ display:"block" }} />
+                      <a
+                        href="https://play.google.com/store/apps/details?id=com.bifrostwallet.app&hl=en_GB&gl=US"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="hover-img-link"
+                      >
+                        <img
+                          src={A.google}
+                          alt="Get it on Google Play"
+                          className="default-logo"
+                          style={{ display: "block" }}
+                        />
+                        <img
+                          src={A.googleH}
+                          alt="Get it on Google Play"
+                          className="hover-logo"
+                          style={{ display: "block" }}
+                        />
                       </a>
                     </div>
                   </div>
@@ -887,51 +1251,157 @@ export default function BifrostWallet() {
 
         {/* ─── FOOTER ─── */}
         <footer className="footer-container">
-          <div id="company-footer" className="block-container auto content-block">
+          <div
+            id="company-footer"
+            className="block-container auto content-block"
+          >
             <div className="cw-left">
               <div className="block-content">
                 <div className="footer-grid">
                   <div>
                     <span className="h3 heading">Bifrost Wallet</span>
-                    <p>Have full control over your crypto tokens with a self custody wallet, NFT gallery and Web3 browser all in one simple and secure app. Supported blockchains include Flare, Songbird, Ethereum, XRP, Polygon and many more.</p>
+                    <p>
+                      Have full control over your crypto tokens with a self
+                      custody wallet, NFT gallery and Web3 browser all in one
+                      simple and secure app. Supported blockchains include
+                      Flare, Songbird, Ethereum, XRP, Polygon and many more.
+                    </p>
                   </div>
                   <div>
-                    <span className="h4 heading" style={{ display:"block", marginBottom:"0.5rem" }}>Company</span>
+                    <span
+                      className="h4 heading"
+                      style={{ display: "block", marginBottom: "0.5rem" }}
+                    >
+                      Company
+                    </span>
                     <ul>
-                      <li><a href="/security/">Security</a></li>
-                      <li><a href="/blog/">Blog</a></li>
-                      <li><a href="/supported-assets/">Supported Assets</a></li>
-                      <li><a href="/media-kit/">Media Kit</a></li>
-                      <li><a href="https://support.bifrostwallet.com/en/" target="_blank" rel="noreferrer">Support</a></li>
+                      <li>
+                        <a href="/security/">Security</a>
+                      </li>
+                      <li>
+                        <a href="/blog/">Blog</a>
+                      </li>
+                      <li>
+                        <a href="/supported-assets/">Supported Assets</a>
+                      </li>
+                      <li>
+                        <a href="/media-kit/">Media Kit</a>
+                      </li>
+                      <li>
+                        <a
+                             onClick={() => navigate("/support")}
+                        >
+                          Support
+                        </a>
+                      </li>
                     </ul>
                     <br />
-                    <span className="h4 heading" style={{ display:"block", marginBottom:"0.5rem" }}>Legal</span>
+                    <span
+                      className="h4 heading"
+                      style={{ display: "block", marginBottom: "0.5rem" }}
+                    >
+                      Legal
+                    </span>
                     <ul>
-                      <li><a href="/legal/terms/">Terms of Use</a></li>
-                      <li><a href="/legal/privacy/">Privacy Policy</a></li>
+                      <li>
+                        <a href="/legal/terms/">Terms of Use</a>
+                      </li>
+                      <li>
+                        <a href="/legal/privacy/">Privacy Policy</a>
+                      </li>
                     </ul>
                   </div>
                   <div>
-                    <span className="h4 heading" style={{ display:"block", marginBottom:"0.5rem" }}>Assets</span>
+                    <span
+                      className="h4 heading"
+                      style={{ display: "block", marginBottom: "0.5rem" }}
+                    >
+                      Assets
+                    </span>
                     <ul>
-                      {[["Flare","flare"],["Ethereum","ethereum"],["XRP","xrp"],["Polygon","polygon"],["Optimism","optimism"],["BNB","bnb"],["XDC Network","xdc"],["Arbitrum","arbitrum"],["Songbird","songbird"]].map(([n,s]) => (
-                        <li key={s}><a href={`/assets/${s}/`}>{n}</a></li>
+                      {[
+                        ["Flare", "flare"],
+                        ["Ethereum", "ethereum"],
+                        ["XRP", "xrp"],
+                        ["Polygon", "polygon"],
+                        ["Optimism", "optimism"],
+                        ["BNB", "bnb"],
+                        ["XDC Network", "xdc"],
+                        ["Arbitrum", "arbitrum"],
+                        ["Songbird", "songbird"],
+                      ].map(([n, s]) => (
+                        <li key={s}>
+                          <a href={`/assets/${s}/`}>{n}</a>
+                        </li>
                       ))}
                     </ul>
                   </div>
                   <div>
-                    <span className="h4 heading" style={{ display:"block", marginBottom:"0.5rem" }}>Social</span>
-                    <a href="https://x.com/intent/user?screen_name=bifrostwallet" target="_blank" rel="noreferrer" className="hover-img-link" style={{ margin:"0 0.8rem 0.3rem 0" }}>
-                      <img src={A.iconX}   alt="X"        width={50} height={50} className="default-logo" />
+                    <span
+                      className="h4 heading"
+                      style={{ display: "block", marginBottom: "0.5rem" }}
+                    >
+                      Social
+                    </span>
+                    <a
+                      href="https://x.com/intent/user?screen_name=bifrostwallet"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="hover-img-link"
+                      style={{ margin: "0 0.8rem 0.3rem 0" }}
+                    >
+                      <img
+                        src={A.iconX}
+                        alt="X"
+                        width={50}
+                        height={50}
+                        className="default-logo"
+                      />
                     </a>
-                    <a href="https://www.youtube.com/@bifrostwalletcom?sub_confirmation=1" target="_blank" rel="noreferrer" className="hover-img-link" style={{ margin:"0 0.8rem 0.3rem 0" }}>
-                      <img src={A.iconYT}  alt="YouTube"  width={50} height={50} className="default-logo" />
+                    <a
+                      href="https://www.youtube.com/@bifrostwalletcom?sub_confirmation=1"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="hover-img-link"
+                      style={{ margin: "0 0.8rem 0.3rem 0" }}
+                    >
+                      <img
+                        src={A.iconYT}
+                        alt="YouTube"
+                        width={50}
+                        height={50}
+                        className="default-logo"
+                      />
                     </a>
-                    <a href="https://www.reddit.com/r/Bifrost/" target="_blank" rel="noreferrer" className="hover-img-link" style={{ margin:"0 0.8rem 0.3rem 0" }}>
-                      <img src={A.iconReddit} alt="Reddit" width={50} height={50} className="default-logo" />
+                    <a
+                      href="https://www.reddit.com/r/Bifrost/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="hover-img-link"
+                      style={{ margin: "0 0.8rem 0.3rem 0" }}
+                    >
+                      <img
+                        src={A.iconReddit}
+                        alt="Reddit"
+                        width={50}
+                        height={50}
+                        className="default-logo"
+                      />
                     </a>
-                    <a href="https://t.me/bifrostwalletcom" target="_blank" rel="noreferrer" className="hover-img-link" style={{ margin:"0 0.8rem 0.3rem 0" }}>
-                      <img src={A.iconTG} alt="Telegram"  width={50} height={50} className="default-logo" />
+                    <a
+                      href="https://t.me/bifrostwalletcom"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="hover-img-link"
+                      style={{ margin: "0 0.8rem 0.3rem 0" }}
+                    >
+                      <img
+                        src={A.iconTG}
+                        alt="Telegram"
+                        width={50}
+                        height={50}
+                        className="default-logo"
+                      />
                     </a>
                   </div>
                 </div>
@@ -940,8 +1410,7 @@ export default function BifrostWallet() {
             </div>
           </div>
         </footer>
-
       </div>
-    </>
+    </Layout>
   );
 }
