@@ -597,10 +597,8 @@ export default function BifrostWallet() {
 
       <div className="bifrost-page">
         {/* ─── HEADER ─── */}
-       
 
         {/* Mobile nav */}
-      
 
         {/* ─── HERO (gradient + block) ─── */}
         <div className="grad-wrapper" style={{ paddingTop: "3.2rem" }}>
@@ -842,7 +840,7 @@ export default function BifrostWallet() {
                       rel="noreferrer"
                       className="button"
                     >
-                      <span>More on self custody</span>
+                      <span>Connect Wallet</span>
                       <img
                         src={A.linkIcon}
                         alt=""
@@ -883,12 +881,7 @@ export default function BifrostWallet() {
                     Access to staking, swaps and more. Discover and use any Web3
                     application such as Uniswap, Compound and Flarefarm.
                   </p>
-                  <a
-                    href="https://support.bifrostwallet.com/en/articles/6877428-browse-and-access-decentralized-applications-dapps"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="button"
-                  >
+                  <a onClick={() => navigate("/support")} className="button">
                     <span>Dapps in Bifrost Wallet</span>
                     <img
                       src={A.linkIcon}
@@ -916,12 +909,7 @@ export default function BifrostWallet() {
                       Securely store and easily view your rare NFTs from games,
                       artists and beyond within the Bifrost app.
                     </p>
-                    <a
-                      href="https://support.bifrostwallet.com/en/articles/6872887-manage-your-nfts"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="button"
-                    >
+                    <a onClick={() => navigate("/support")} className="button">
                       <span>Wallet for NFTs</span>
                       <img
                         src={A.linkIcon}
@@ -992,7 +980,7 @@ export default function BifrostWallet() {
                     transaction details, we take great care in making sure your
                     security and privacy are well protected.
                   </p>
-                  <a className="button" href="/security/">
+                  <a className="button" onClick={() => navigate("/support")}>
                     <span>More on security</span>
                     <div className="overlay" />
                   </a>
@@ -1288,11 +1276,7 @@ export default function BifrostWallet() {
                         <a href="/media-kit/">Media Kit</a>
                       </li>
                       <li>
-                        <a
-                             onClick={() => navigate("/support")}
-                        >
-                          Support
-                        </a>
+                        <a onClick={() => navigate("/support")}>Support</a>
                       </li>
                     </ul>
                     <br />

