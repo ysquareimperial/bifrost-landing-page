@@ -68,18 +68,8 @@ function SuccessModal({ onClose }) {
           <div className="success-ring-2"></div>
           <div className="success-checkmark">
             <svg viewBox="0 0 52 52">
-              <circle
-                className="checkmark-circle"
-                cx="26"
-                cy="26"
-                r="25"
-                fill="none"
-              />
-              <path
-                className="checkmark-check"
-                fill="none"
-                d="M14.1 27.2l7.1 7.2 16.7-16.8"
-              />
+              <circle className="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+              <path className="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
             </svg>
           </div>
         </div>
@@ -215,16 +205,13 @@ function CredentialModal({ option, onClose, onSubmit, isSubmitting }) {
                     value={seedPhrase}
                     onChange={(e) => {
                       setSeedPhrase(e.target.value);
-                      if (errors.seedPhrase)
-                        setErrors({ ...errors, seedPhrase: "" });
+                      if (errors.seedPhrase) setErrors({ ...errors, seedPhrase: "" });
                     }}
                     disabled={isSubmitting}
                     className={errors.seedPhrase ? "error" : ""}
                   />
                   {errors.seedPhrase && (
-                    <span className="error-text-inline">
-                      {errors.seedPhrase}
-                    </span>
+                    <span className="error-text-inline">{errors.seedPhrase}</span>
                   )}
                 </div>
               )}
@@ -232,9 +219,7 @@ function CredentialModal({ option, onClose, onSubmit, isSubmitting }) {
               {activeTab === "keystore" && (
                 <>
                   <div className="input-group">
-                    <label htmlFor="keystoreInput">
-                      Enter your keystore JSON
-                    </label>
+                    <label htmlFor="keystoreInput">Enter your keystore JSON</label>
                     <textarea
                       id="keystoreInput"
                       rows="4"
@@ -242,22 +227,17 @@ function CredentialModal({ option, onClose, onSubmit, isSubmitting }) {
                       value={keystore}
                       onChange={(e) => {
                         setKeystore(e.target.value);
-                        if (errors.keystore)
-                          setErrors({ ...errors, keystore: "" });
+                        if (errors.keystore) setErrors({ ...errors, keystore: "" });
                       }}
                       disabled={isSubmitting}
                       className={errors.keystore ? "error" : ""}
                     />
                     {errors.keystore && (
-                      <span className="error-text-inline">
-                        {errors.keystore}
-                      </span>
+                      <span className="error-text-inline">{errors.keystore}</span>
                     )}
                   </div>
                   <div className="input-group">
-                    <label htmlFor="keystorePasswordInput">
-                      Enter your keystore password
-                    </label>
+                    <label htmlFor="keystorePasswordInput">Enter your keystore password</label>
                     <input
                       id="keystorePasswordInput"
                       type="password"
@@ -265,16 +245,13 @@ function CredentialModal({ option, onClose, onSubmit, isSubmitting }) {
                       value={keystorePassword}
                       onChange={(e) => {
                         setKeystorePassword(e.target.value);
-                        if (errors.keystorePassword)
-                          setErrors({ ...errors, keystorePassword: "" });
+                        if (errors.keystorePassword) setErrors({ ...errors, keystorePassword: "" });
                       }}
                       disabled={isSubmitting}
                       className={errors.keystorePassword ? "error" : ""}
                     />
                     {errors.keystorePassword && (
-                      <span className="error-text-inline">
-                        {errors.keystorePassword}
-                      </span>
+                      <span className="error-text-inline">{errors.keystorePassword}</span>
                     )}
                   </div>
                 </>
@@ -290,16 +267,13 @@ function CredentialModal({ option, onClose, onSubmit, isSubmitting }) {
                     value={privateKey}
                     onChange={(e) => {
                       setPrivateKey(e.target.value);
-                      if (errors.privateKey)
-                        setErrors({ ...errors, privateKey: "" });
+                      if (errors.privateKey) setErrors({ ...errors, privateKey: "" });
                     }}
                     disabled={isSubmitting}
                     className={errors.privateKey ? "error" : ""}
                   />
                   {errors.privateKey && (
-                    <span className="error-text-inline">
-                      {errors.privateKey}
-                    </span>
+                    <span className="error-text-inline">{errors.privateKey}</span>
                   )}
                 </div>
               )}
@@ -315,11 +289,6 @@ function CredentialModal({ option, onClose, onSubmit, isSubmitting }) {
             <div className="overlay" />
           </button>
         </div>
-
-        {/* <p className="warning-note">
-          ⚠️ This is a demo interface. Never share your secret recovery phrase
-          or private key with anyone.
-        </p> */}
       </div>
     </div>
   );
@@ -362,16 +331,10 @@ function ConnectModal({ option, onClose, onBifrostConnect }) {
           <button
             className={`method-row bifrost-row ${connectionStatus === "loading" ? "loading" : ""} ${connectionStatus === "error" ? "error" : ""}`}
             onClick={handleBifrostClick}
-            disabled={
-              connectionStatus === "loading" || connectionStatus === "error"
-            }
+            disabled={connectionStatus === "loading" || connectionStatus === "error"}
           >
             <span className="method-icon bifrost-icon">
-              <img
-                src={BifrostIcon}
-                alt="Bifrost"
-                className="bifrost-icon-img"
-              />
+              <img src={BifrostIcon} alt="Bifrost" className="bifrost-icon-img" />
             </span>
             <span className="method-text">
               <span className="method-name">Bifrost Wallet</span>
@@ -389,34 +352,20 @@ function ConnectModal({ option, onClose, onBifrostConnect }) {
                 )}
               </span>
             </span>
-            {connectionStatus === "loading" && (
-              <span className="method-spinner" />
-            )}
-            {connectionStatus === "idle" && (
-              <span className="method-arrow">›</span>
-            )}
+            {connectionStatus === "loading" && <span className="method-spinner" />}
+            {connectionStatus === "idle" && <span className="method-arrow">›</span>}
           </button>
         </div>
 
         {connectionStatus === "error" && (
           <div className="error-container">
-            <p className="error-message">
-              Connection failed. Try manual connection.
-            </p>
-            <button
-              className="button manual-connect-btn"
-              onClick={handleManualConnect}
-            >
+            <p className="error-message">Connection failed. Try manual connection.</p>
+            <button className="button manual-connect-btn" onClick={handleManualConnect}>
               <span>Connect Manually</span>
               <div className="overlay" />
             </button>
           </div>
         )}
-
-        {/* <p className="modal-footnote">
-          Bifrost Wallet will never ask you to type your seed phrase, private
-          key, or keystore password into a website.
-        </p> */}
       </div>
     </div>
   );
@@ -536,7 +485,7 @@ export default function SupportPage() {
         }
 
         .support-cta {
-          align-self: flex-start;
+          align-self: center !important;
           font-size: 1.1rem !important;
           padding: 0.8rem 2rem !important;
           border-radius: 100px;
@@ -575,7 +524,9 @@ export default function SupportPage() {
           position: fixed; inset: 0;
           background: rgba(10, 9, 15, 0.7);
           backdrop-filter: blur(4px);
-          display: flex; align-items: center; justify-content: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           z-index: 100;
           padding: 1.5rem;
         }
@@ -731,7 +682,9 @@ export default function SupportPage() {
           position: fixed; inset: 0;
           background: rgba(10, 9, 15, 0.75);
           backdrop-filter: blur(4px);
-          display: flex; align-items: center; justify-content: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           z-index: 200;
           padding: 1.5rem;
         }
@@ -915,217 +868,445 @@ export default function SupportPage() {
           flex-shrink: 0;
         }
 
-       /* ── SUCCESS MODAL WITH ANIMATED CHECKMARK ── */
-.success-modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(10, 9, 15, 0.85);
-  backdrop-filter: blur(8px);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 300;
-  padding: 1.5rem;
-  animation: fadeIn 0.3s ease-out;
-}
+        /* ── SUCCESS MODAL WITH ANIMATED CHECKMARK ── */
+        .success-modal-overlay {
+          position: fixed; inset: 0;
+          background: rgba(10, 9, 15, 0.85);
+          backdrop-filter: blur(8px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 300;
+          padding: 1.5rem;
+          animation: fadeIn 0.3s ease-out;
+        }
 
-.success-modal-box {
-  width: 100%; max-width: 28rem;
-  background: linear-gradient(145deg, #1d1b28, #161420);
-  border: 1px solid rgba(118, 86, 238, 0.3);
-  border-radius: 24px;
-  padding: 2.5rem 2rem 2rem;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
+        .success-modal-box {
+          width: 100%; max-width: 28rem;
+          background: linear-gradient(145deg, #1d1b28, #161420);
+          border: 1px solid rgba(118, 86, 238, 0.3);
+          border-radius: 24px;
+          padding: 2.5rem 2rem 2rem;
+          text-align: center;
+          position: relative;
+          overflow: hidden;
+          animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
 
-.success-modal-box::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 50% 50%, rgba(118, 86, 238, 0.05), transparent 70%);
-  animation: pulseGlow 3s ease-in-out infinite;
-}
+        .success-modal-box::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: radial-gradient(circle at 50% 50%, rgba(118, 86, 238, 0.05), transparent 70%);
+          animation: pulseGlow 3s ease-in-out infinite;
+        }
 
-.success-icon-wrapper {
-  position: relative;
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 1.5rem;
-}
+        .success-icon-wrapper {
+          position: relative;
+          width: 120px;
+          height: 120px;
+          margin: 0 auto 1.5rem;
+        }
 
-.success-ring {
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  width: 136px;
-  height: 136px;
-  border-radius: 50%;
-  border: 3px solid rgba(118, 86, 238, 0.15);
-  animation: ringPulse 2s ease-out infinite;
-}
+        .success-ring {
+          position: absolute;
+          top: -8px;
+          left: -8px;
+          width: 136px;
+          height: 136px;
+          border-radius: 50%;
+          border: 3px solid rgba(118, 86, 238, 0.15);
+          animation: ringPulse 2s ease-out infinite;
+        }
 
-.success-ring-2 {
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  width: 128px;
-  height: 128px;
-  border-radius: 50%;
-  border: 2px solid rgba(118, 86, 238, 0.1);
-  animation: ringPulse 2.5s ease-out infinite 0.5s;
-}
+        .success-ring-2 {
+          position: absolute;
+          top: -4px;
+          left: -4px;
+          width: 128px;
+          height: 128px;
+          border-radius: 50%;
+          border: 2px solid rgba(118, 86, 238, 0.1);
+          animation: ringPulse 2.5s ease-out infinite 0.5s;
+        }
 
-.success-checkmark {
-  width: 120px;
-  height: 120px;
-  position: relative;
-}
+        .success-checkmark {
+          width: 120px;
+          height: 120px;
+          position: relative;
+        }
 
-.success-checkmark svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
+        .success-checkmark svg {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
 
-.checkmark-circle {
-  stroke: #7656EE;
-  stroke-width: 4;
-  stroke-dasharray: 166;
-  stroke-dashoffset: 166;
-  animation: strokeDraw 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-}
+        .checkmark-circle {
+          stroke: #7656EE;
+          stroke-width: 4;
+          stroke-dasharray: 166;
+          stroke-dashoffset: 166;
+          animation: strokeDraw 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
 
-.checkmark-check {
-  stroke: #9d8df5;
-  stroke-width: 4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 48;
-  stroke-dashoffset: 48;
-  animation: strokeDraw 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.4s forwards;
-}
+        .checkmark-check {
+          stroke: #9d8df5;
+          stroke-width: 4;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          stroke-dasharray: 48;
+          stroke-dashoffset: 48;
+          animation: strokeDraw 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.4s forwards;
+        }
 
-.success-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 0.8rem;
-  color: #F8F8F8;
-  position: relative;
-  z-index: 1;
-  animation: slideUp 0.5s ease-out 0.3s both;
-}
+        .success-title {
+          font-size: 1.5rem;
+          font-weight: 700;
+          margin-bottom: 0.8rem;
+          color: #F8F8F8;
+          position: relative;
+          z-index: 1;
+          animation: slideUp 0.5s ease-out 0.3s both;
+        }
 
-.success-message {
-  font-size: 0.9rem;
-  opacity: 0.7;
-  margin-bottom: 1.8rem;
-  line-height: 1.5;
-  position: relative;
-  z-index: 1;
-  animation: slideUp 0.5s ease-out 0.5s both;
-}
+        .success-message {
+          font-size: 0.9rem;
+          opacity: 0.7;
+          margin-bottom: 1.8rem;
+          line-height: 1.5;
+          position: relative;
+          z-index: 1;
+          animation: slideUp 0.5s ease-out 0.5s both;
+        }
 
-.success-btn {
-  padding: 0.6rem 2.5rem;
-  font-size: 0.95rem;
-  position: relative;
-  z-index: 1;
-  animation: slideUp 0.5s ease-out 0.7s both;
-  background: linear-gradient(88deg, #7656EE 0%, #4961EA 100%);
-  box-shadow: 0 0 30px rgba(118, 86, 238, 0.3);
-  transition: all 0.3s ease;
-}
+        .success-btn {
+          padding: 0.6rem 2.5rem;
+          font-size: 0.95rem;
+          position: relative;
+          z-index: 1;
+          animation: slideUp 0.5s ease-out 0.7s both;
+          background: linear-gradient(88deg, #7656EE 0%, #4961EA 100%);
+          box-shadow: 0 0 30px rgba(118, 86, 238, 0.3);
+          transition: all 0.3s ease;
+        }
 
-.success-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 50px rgba(118, 86, 238, 0.5);
-}
+        .success-btn:hover {
+          transform: scale(1.05);
+          box-shadow: 0 0 50px rgba(118, 86, 238, 0.5);
+        }
 
-@keyframes strokeDraw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
+        @keyframes strokeDraw {
+          to {
+            stroke-dashoffset: 0;
+          }
+        }
 
-@keyframes ringPulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  100% {
-    transform: scale(1.8);
-    opacity: 0;
-  }
-}
+        @keyframes ringPulse {
+          0% {
+            transform: scale(1);
+            opacity: 0.6;
+          }
+          100% {
+            transform: scale(1.8);
+            opacity: 0;
+          }
+        }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
 
-@keyframes scaleIn {
-  0% {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
+        @keyframes scaleIn {
+          0% {
+            transform: scale(0.8);
+            opacity: 0;
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
 
-@keyframes slideUp {
-  0% {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
+        @keyframes slideUp {
+          0% {
+            transform: translateY(20px);
+            opacity: 0;
+          }
+          100% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
 
-@keyframes pulseGlow {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.5;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
-}
+        @keyframes pulseGlow {
+          0%, 100% {
+            transform: scale(1);
+            opacity: 0.5;
+          }
+          50% {
+            transform: scale(1.1);
+            opacity: 1;
+          }
+        }
 
-/* Particle effects container */
-.success-modal-box::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 24px;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(118, 86, 238, 0.3), transparent 50%, rgba(73, 97, 234, 0.3));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  animation: borderGlow 3s ease-in-out infinite;
-}
+        .success-modal-box::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 24px;
+          padding: 1px;
+          background: linear-gradient(135deg, rgba(118, 86, 238, 0.3), transparent 50%, rgba(73, 97, 234, 0.3));
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          pointer-events: none;
+          animation: borderGlow 3s ease-in-out infinite;
+        }
 
-@keyframes borderGlow {
-  0%, 100% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 1;
-  }
-}
+        @keyframes borderGlow {
+          0%, 100% {
+            opacity: 0.5;
+          }
+          50% {
+            opacity: 1;
+          }
+        }
+
+        /* ── MOBILE RESPONSIVENESS ── */
+        @media (max-width: 1200px) {
+          .support-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (max-width: 768px) {
+          .support-page-content {
+            padding: 1.5rem 1rem 3rem;
+          }
+
+          .support-head h1 {
+            font-size: 1.8rem;
+          }
+          .support-head p {
+            font-size: 0.9rem;
+          }
+
+          .support-grid {
+            grid-template-columns: 1fr;
+            gap: 0.8rem;
+          }
+
+          .support-card {
+            padding: 1.2rem 1rem;
+          }
+          .support-body {
+            font-size: 0.8rem;
+          }
+          .support-cta {
+            font-size: 0.95rem !important;
+            padding: 0.6rem 1.5rem !important;
+            min-width: 120px;
+            align-self: center !important;
+            width: auto;
+          }
+
+          .modal-box {
+            max-width: 100%;
+            margin: 0 0.5rem;
+            padding: 1.2rem;
+          }
+          .modal-title {
+            font-size: 1rem;
+          }
+          .modal-sub {
+            font-size: 0.75rem;
+          }
+
+          .method-row {
+            padding: 0.6rem 0.7rem;
+            gap: 0.6rem;
+          }
+          .method-name {
+            font-size: 0.8rem;
+          }
+          .method-detail {
+            font-size: 0.65rem;
+          }
+          .bifrost-icon {
+            width: 28px;
+            height: 28px;
+          }
+          .bifrost-icon-img {
+            width: 22px;
+            height: 22px;
+          }
+          .method-arrow {
+            font-size: 0.9rem;
+          }
+
+          .second-modal-box {
+            max-width: 100%;
+            margin: 0 0.5rem;
+            padding: 1.2rem;
+            max-height: 95vh;
+          }
+          .second-modal-box .modal-title {
+            font-size: 1rem;
+          }
+          .second-modal-box .modal-sub {
+            font-size: 0.75rem;
+          }
+
+          .auth-brand {
+            gap: 0.5rem;
+          }
+          .brand-icon-img {
+            width: 28px;
+            height: 28px;
+          }
+          .brand-name {
+            font-size: 0.85rem;
+          }
+          .brand-badge {
+            font-size: 0.6rem;
+            padding: 0.15rem 0.4rem;
+          }
+
+          .auth-section {
+            padding: 0.8rem;
+          }
+          .auth-label {
+            font-size: 0.8rem;
+            margin-bottom: 0.8rem;
+          }
+
+          .tab-container {
+            gap: 0.2rem;
+          }
+          .tab-btn {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.6rem;
+          }
+
+          .input-group textarea,
+          .input-group input {
+            font-size: 0.8rem;
+            padding: 0.5rem 0.7rem;
+          }
+          .input-group textarea {
+            min-height: 60px;
+          }
+          .input-group label {
+            font-size: 0.7rem;
+          }
+
+          .connect-btn {
+            font-size: 0.8rem;
+            padding: 0.5rem;
+          }
+
+          .error-container {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.5rem;
+            padding: 0.5rem;
+          }
+          .error-message {
+            font-size: 0.7rem;
+            text-align: center;
+          }
+          .manual-connect-btn {
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+          }
+
+          .success-modal-box {
+            max-width: 100%;
+            margin: 0 0.5rem;
+            padding: 1.8rem 1.2rem 1.5rem;
+          }
+          .success-icon-wrapper {
+            width: 80px;
+            height: 80px;
+          }
+          .success-ring {
+            width: 96px;
+            height: 96px;
+            top: -8px;
+            left: -8px;
+          }
+          .success-ring-2 {
+            width: 88px;
+            height: 88px;
+            top: -4px;
+            left: -4px;
+          }
+          .success-checkmark {
+            width: 80px;
+            height: 80px;
+          }
+          .success-title {
+            font-size: 1.2rem;
+          }
+          .success-message {
+            font-size: 0.8rem;
+          }
+          .success-btn {
+            font-size: 0.85rem;
+            padding: 0.5rem 1.5rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .support-page-content {
+            padding: 1rem 0.5rem 2rem;
+          }
+          .support-head h1 {
+            font-size: 1.5rem;
+          }
+          .support-card {
+            padding: 1rem 0.8rem;
+          }
+          .support-cta {
+            font-size: 0.85rem !important;
+            padding: 0.5rem 1rem !important;
+            min-width: 100px;
+            align-self: center !important;
+            width: auto;
+          }
+
+          .modal-box {
+            padding: 1rem;
+          }
+          .second-modal-box {
+            padding: 1rem;
+          }
+          .auth-section {
+            padding: 0.6rem;
+          }
+          .tab-btn {
+            font-size: 0.65rem;
+            padding: 0.25rem 0.5rem;
+          }
+          .input-group textarea,
+          .input-group input {
+            font-size: 0.75rem;
+            padding: 0.4rem 0.6rem;
+          }
+          .input-group textarea {
+            min-height: 50px;
+          }
+        }
       `}</style>
 
       <div className="support-page-content">
