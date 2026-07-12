@@ -835,8 +835,7 @@ export default function BifrostWallet() {
                       complete control of your crypto tokens, keys and data.
                     </p>
                     <a
-                      href="https://support.bifrostwallet.com/en/articles/6877393-the-importance-of-self-custody"
-                      target="_blank"
+                      href="#"
                       rel="noreferrer"
                       className="button"
                     >
@@ -881,7 +880,7 @@ export default function BifrostWallet() {
                     Access to staking, swaps and more. Discover and use any Web3
                     application such as Uniswap, Compound and Flarefarm.
                   </p>
-                  <a onClick={() => navigate("/support")} className="button">
+                  <a href="#" className="button">
                     <span>Dapps in Bifrost Wallet</span>
                     <img
                       src={A.linkIcon}
@@ -909,7 +908,7 @@ export default function BifrostWallet() {
                       Securely store and easily view your rare NFTs from games,
                       artists and beyond within the Bifrost app.
                     </p>
-                    <a onClick={() => navigate("/support")} className="button">
+                    <a className="button">
                       <span>Wallet for NFTs</span>
                       <img
                         src={A.linkIcon}
@@ -1109,7 +1108,7 @@ export default function BifrostWallet() {
                       ))}
                     </div>
                   </div>
-                  <a className="button" href="/supported-assets/">
+                  <a className="button">
                     <span>See all supported tokens</span>
                     <div className="overlay" />
                   </a>
@@ -1264,16 +1263,16 @@ export default function BifrostWallet() {
                     </span>
                     <ul>
                       <li>
-                        <a href="/security/">Security</a>
+                        <a href="#">Security</a>
                       </li>
                       <li>
-                        <a href="/blog/">Blog</a>
+                        <a href="#">Blog</a>
                       </li>
                       <li>
-                        <a href="/supported-assets/">Supported Assets</a>
+                        <a href="#">Supported Assets</a>
                       </li>
                       <li>
-                        <a href="/media-kit/">Media Kit</a>
+                        <a href="#">Media Kit</a>
                       </li>
                       <li>
                         <a onClick={() => navigate("/support")}>Support</a>
@@ -1288,10 +1287,10 @@ export default function BifrostWallet() {
                     </span>
                     <ul>
                       <li>
-                        <a href="/legal/terms/">Terms of Use</a>
+                        <a href="#">Terms of Use</a>
                       </li>
                       <li>
-                        <a href="/legal/privacy/">Privacy Policy</a>
+                        <a href="#">Privacy Policy</a>
                       </li>
                     </ul>
                   </div>
@@ -1315,7 +1314,7 @@ export default function BifrostWallet() {
                         ["Songbird", "songbird"],
                       ].map(([n, s]) => (
                         <li key={s}>
-                          <a href={`/assets/${s}/`}>{n}</a>
+                          <a href="#">{n}</a>
                         </li>
                       ))}
                     </ul>
@@ -1373,8 +1372,7 @@ export default function BifrostWallet() {
                       />
                     </a>
                     <a
-                      href="https://t.me/bifrostwalletcom"
-                      target="_blank"
+                     
                       rel="noreferrer"
                       className="hover-img-link"
                       style={{ margin: "0 0.8rem 0.3rem 0" }}

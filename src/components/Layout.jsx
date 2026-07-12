@@ -208,17 +208,17 @@ export default function Layout({ children }) {
           <div id="menu">
             <div className="menu-item">
               <span className="text">
-                <a href="/security/">Security</a>
+                <a onClick={() => navigate("/support")}>Security</a>
               </span>
             </div>
             <div className="menu-item">
               <span className="text">
-                <a href="/blog/">Blog</a>
+                <a href="#">Blog</a>
               </span>
             </div>
             <div className="menu-item">
               <span className="text">
-                <a 
+                <a
                   onClick={() => navigate("/support")}
                   className={isSupportPage ? "active" : ""}
                 >
@@ -234,10 +234,7 @@ export default function Layout({ children }) {
             </div>
           </div>
 
-          <div
-            id="mobile-menu-toggle"
-            onClick={() => setMobileOpen((o) => !o)}
-          >
+          <div id="mobile-menu-toggle" onClick={() => setMobileOpen((o) => !o)}>
             <div />
             <div />
             <div />
@@ -247,9 +244,9 @@ export default function Layout({ children }) {
 
       {/* Mobile nav */}
       <div className={`mobile-nav${mobileOpen ? " open" : ""}`}>
-        <a href="/security/">Security</a>
-        <a href="/blog/">Blog</a>
-        <a 
+        <a onClick={() => navigate("/support")}>Security</a>
+        <a href="#">Blog</a>
+        <a
           onClick={() => {
             navigate("/support");
             setMobileOpen(false);
@@ -270,9 +267,7 @@ export default function Layout({ children }) {
       </div>
 
       {/* Page Content */}
-      <div className="page-content">
-        {children}
-      </div>
+      <div className="page-content">{children}</div>
     </div>
   );
 }

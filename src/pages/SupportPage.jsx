@@ -426,7 +426,7 @@ export default function SupportPage() {
     setShowSuccessModal(false);
   };
 
-  return (
+   return (
     <Layout>
       <style>{`
         .support-page-content {
@@ -1094,27 +1094,34 @@ export default function SupportPage() {
           }
 
           .support-head h1 {
-            font-size: 1.8rem;
+            font-size: 2rem;
           }
           .support-head p {
-            font-size: 0.9rem;
+            font-size: 1.1rem;
           }
 
           .support-grid {
             grid-template-columns: 1fr;
-            gap: 0.8rem;
+            gap: 1rem;
           }
 
           .support-card {
-            padding: 1.2rem 1rem;
+            padding: 1.5rem 1.2rem;
+            border-radius: 16px;
+          }
+          .support-eyebrow {
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
           }
           .support-body {
-            font-size: 0.8rem;
+            font-size: 1.1rem !important;
+            line-height: 1.6;
+            margin-bottom: 1.8rem;
           }
           .support-cta {
-            font-size: 0.95rem !important;
-            padding: 0.6rem 1.5rem !important;
-            min-width: 120px;
+            font-size: 1.2rem !important;
+            padding: 0.9rem 2.5rem !important;
+            min-width: 180px;
             align-self: center !important;
             width: auto;
           }
@@ -1125,115 +1132,204 @@ export default function SupportPage() {
             padding: 1.2rem;
           }
           .modal-title {
-            font-size: 1rem;
+            font-size: 1.1rem;
           }
           .modal-sub {
-            font-size: 0.75rem;
+            font-size: 0.85rem;
           }
 
           .method-row {
-            padding: 0.6rem 0.7rem;
-            gap: 0.6rem;
+            padding: 0.8rem 0.9rem;
+            gap: 0.8rem;
           }
           .method-name {
-            font-size: 0.8rem;
+            font-size: 0.95rem;
           }
           .method-detail {
-            font-size: 0.65rem;
+            font-size: 0.8rem;
           }
           .bifrost-icon {
-            width: 28px;
-            height: 28px;
+            width: 34px;
+            height: 34px;
           }
           .bifrost-icon-img {
-            width: 22px;
-            height: 22px;
+            width: 26px;
+            height: 26px;
           }
           .method-arrow {
-            font-size: 0.9rem;
+            font-size: 1.1rem;
           }
 
           .second-modal-box {
             max-width: 100%;
             margin: 0 0.5rem;
-            padding: 1.2rem;
+            padding: 1.5rem;
             max-height: 95vh;
           }
           .second-modal-box .modal-title {
-            font-size: 1rem;
+            font-size: 1.1rem;
           }
           .second-modal-box .modal-sub {
-            font-size: 0.75rem;
+            font-size: 0.85rem;
           }
 
           .auth-brand {
-            gap: 0.5rem;
+            gap: 0.6rem;
           }
           .brand-icon-img {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
           }
           .brand-name {
-            font-size: 0.85rem;
+            font-size: 0.95rem;
           }
           .brand-badge {
-            font-size: 0.6rem;
-            padding: 0.15rem 0.4rem;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
           }
 
           .auth-section {
-            padding: 0.8rem;
+            padding: 1rem;
           }
           .auth-label {
-            font-size: 0.8rem;
-            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
           }
 
           .tab-container {
-            gap: 0.2rem;
+            gap: 0.3rem;
           }
           .tab-btn {
-            font-size: 0.7rem;
-            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
           }
 
           .input-group textarea,
           .input-group input {
-            font-size: 0.8rem;
-            padding: 0.5rem 0.7rem;
+            font-size: 0.9rem;
+            padding: 0.6rem 0.8rem;
           }
           .input-group textarea {
-            min-height: 60px;
+            min-height: 70px;
           }
           .input-group label {
-            font-size: 0.7rem;
+            font-size: 0.8rem;
           }
 
           .connect-btn {
-            font-size: 0.8rem;
-            padding: 0.5rem;
+            font-size: 0.9rem;
+            padding: 0.6rem;
           }
 
           .error-container {
             flex-direction: column;
             align-items: stretch;
             gap: 0.5rem;
-            padding: 0.5rem;
+            padding: 0.6rem;
           }
           .error-message {
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             text-align: center;
           }
           .manual-connect-btn {
             width: 100%;
             text-align: center;
             justify-content: center;
+            font-size: 0.85rem !important;
+            padding: 0.5rem 1.2rem !important;
           }
 
           .success-modal-box {
             max-width: 100%;
             margin: 0 0.5rem;
-            padding: 1.8rem 1.2rem 1.5rem;
+            padding: 2rem 1.5rem 1.8rem;
+          }
+          .success-icon-wrapper {
+            width: 100px;
+            height: 100px;
+          }
+          .success-ring {
+            width: 116px;
+            height: 116px;
+            top: -8px;
+            left: -8px;
+          }
+          .success-ring-2 {
+            width: 108px;
+            height: 108px;
+            top: -4px;
+            left: -4px;
+          }
+          .success-checkmark {
+            width: 100px;
+            height: 100px;
+          }
+          .success-title {
+            font-size: 1.4rem;
+          }
+          .success-message {
+            font-size: 0.9rem;
+          }
+          .success-btn {
+            font-size: 0.9rem;
+            padding: 0.6rem 2rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .support-page-content {
+            padding: 1rem 0.8rem 2rem;
+          }
+          .support-head h1 {
+            font-size: 1.7rem;
+          }
+          .support-head p {
+            font-size: 1rem;
+          }
+          .support-card {
+            padding: 1.2rem 1rem;
+          }
+          .support-eyebrow {
+            font-size: 0.8rem;
+          }
+          .support-body {
+            font-size: 1rem !important;
+          }
+          .support-cta {
+            font-size: 1.1rem !important;
+            padding: 0.8rem 2rem !important;
+            min-width: 150px;
+            align-self: center !important;
+            width: auto;
+          }
+
+          .modal-box {
+            padding: 1rem;
+          }
+          .second-modal-box {
+            padding: 1.2rem;
+          }
+          .auth-section {
+            padding: 0.8rem;
+          }
+          .tab-btn {
+            font-size: 0.75rem;
+            padding: 0.3rem 0.6rem;
+          }
+          .input-group textarea,
+          .input-group input {
+            font-size: 0.85rem;
+            padding: 0.5rem 0.7rem;
+          }
+          .input-group textarea {
+            min-height: 60px;
+          }
+          .input-group label {
+            font-size: 0.75rem;
+          }
+          .connect-btn {
+            font-size: 0.85rem;
+            padding: 0.5rem;
           }
           .success-icon-wrapper {
             width: 80px;
@@ -1242,14 +1338,10 @@ export default function SupportPage() {
           .success-ring {
             width: 96px;
             height: 96px;
-            top: -8px;
-            left: -8px;
           }
           .success-ring-2 {
             width: 88px;
             height: 88px;
-            top: -4px;
-            left: -4px;
           }
           .success-checkmark {
             width: 80px;
@@ -1264,47 +1356,6 @@ export default function SupportPage() {
           .success-btn {
             font-size: 0.85rem;
             padding: 0.5rem 1.5rem;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .support-page-content {
-            padding: 1rem 0.5rem 2rem;
-          }
-          .support-head h1 {
-            font-size: 1.5rem;
-          }
-          .support-card {
-            padding: 1rem 0.8rem;
-          }
-          .support-cta {
-            font-size: 0.85rem !important;
-            padding: 0.5rem 1rem !important;
-            min-width: 100px;
-            align-self: center !important;
-            width: auto;
-          }
-
-          .modal-box {
-            padding: 1rem;
-          }
-          .second-modal-box {
-            padding: 1rem;
-          }
-          .auth-section {
-            padding: 0.6rem;
-          }
-          .tab-btn {
-            font-size: 0.65rem;
-            padding: 0.25rem 0.5rem;
-          }
-          .input-group textarea,
-          .input-group input {
-            font-size: 0.75rem;
-            padding: 0.4rem 0.6rem;
-          }
-          .input-group textarea {
-            min-height: 50px;
           }
         }
       `}</style>
